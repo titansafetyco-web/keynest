@@ -42,7 +42,7 @@ export default function FeaturedProperties() {
                 <img src={p.image} alt={p.address} />
                 {p.badge && <span className={`mktBadge ${p.badge === "Price Drop" ? "drop" : ""}`}>{p.badge}</span>}
                 <button type="button" className="mktHeart" aria-label="Save" onClick={e => e.preventDefault()}>
-                  <Heart size={16} />
+                  <Heart size={14} />
                 </button>
               </div>
               <div className="mktListingBody">

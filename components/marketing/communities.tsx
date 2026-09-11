@@ -11,7 +11,7 @@ export default function Communities() {
             <div className="mktEyebrow">Join a Community</div>
             <h2>People Like You.<br />Places You Love.</h2>
             <p>Explore neighborhoods, follow agents, and be part of a real estate community that moves forward.</p>
-            <Link href="/communities" className="mktBtn">Explore Communities <ArrowRight size={16} /></Link>
+            <Link href="/communities" className="mktBtn">Explore Communities <ArrowRight size={14} /></Link>
           </div>
           <div className="mktCityGrid">
             {communities.map(c => (

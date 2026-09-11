@@ -16,7 +16,7 @@ export default function AppPromo() {
         <div className="mktPhones">
           <div className="mktPhone">
             <div className="mktPhoneBar" />
-            <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=600&q=85" alt="KeyNest app listings" />
+            <img src="/images/housepool.webp" alt="KeyNest app listings" />
           </div>
           <div className="mktPhone mktPhoneAlt">
             <div className="mktPhoneBar" />

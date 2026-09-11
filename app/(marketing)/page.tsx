@@ -12,7 +12,7 @@ export default function LandingPage() {
       <section className="mktHero">
         <img
           className="mktHeroBg"
-          src="/images/citypool.webp"
+          src="/images/poolcity.webp"
           alt="Infinity pool overlooking a city skyline"
         />
         <div className="mktHeroShade" />

@@ -2,7 +2,7 @@
 
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
-import { MapPin, Search } from "lucide-react";
+import { ChevronDown, MapPin, Search } from "lucide-react";
 
 const types = ["House", "Condo", "Land", "Commercial", "Industrial", "Multifamily", "Luxury"];
 
@@ -25,30 +25,34 @@ export default function HeroSearch() {
     <div className="mktSearchBlock">
       <form className="mktSearch" onSubmit={onSubmit}>
         <label className="mktField">
-          <span>Location</span>
-          <span className="mktFieldInput">
-            <MapPin size={15} />
-            <input value={location} onChange={e => setLocation(e.target.value)} placeholder="City or neighborhood" />
-          </span>
+          <MapPin size={14} />
+          <input
+            value={location}
+            onChange={e => setLocation(e.target.value)}
+            placeholder="City or neighborhood"
+            aria-label="Location"
+          />
         </label>
         <label className="mktField">
-          <span>Bedrooms</span>
-          <select value={beds} onChange={e => setBeds(e.target.value)}>
-            <option value="">Any</option>
+          <select value={beds} onChange={e => setBeds(e.target.value)} aria-label="Bedrooms">
+            <option value="">Bedrooms</option>
             <option value="1">1+</option>
             <option value="2">2+</option>
             <option value="3">3+</option>
             <option value="4">4+</option>
           </select>
+          <ChevronDown size={14} />
         </label>
         <label className="mktField">
-          <span>Property Type</span>
-          <select value={type} onChange={e => setType(e.target.value)}>
-            <option value="">Any</option>
+          <select value={type} onChange={e => setType(e.target.value)} aria-label="Property type">
+            <option value="">Property Type</option>
             {types.map(t => <option key={t} value={t}>{t}</option>)}
           </select>
+          <ChevronDown size={14} />
         </label>
-        <button className="mktSearchBtn" type="submit"><Search size={16} /> Search</button>
+        <button className="mktSearchBtn" type="submit">
+          <Search size={14} /> Search
+        </button>
       </form>
       <div className="mktPills">
         {types.map(t => (
