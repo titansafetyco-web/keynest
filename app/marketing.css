@@ -125,7 +125,7 @@
   position: relative;
   width: min(1120px, calc(100% - 48px));
   margin: 16px auto 0;
-  min-height: 520px;
+  min-height: 560px;
   border-radius: 20px;
   overflow: hidden;
   color: #fff;
@@ -133,9 +133,9 @@
 
 .mktHero img.mktHeroBg,
 .mktHeroShade { position: absolute; inset: 0; }
-.mktHero img.mktHeroBg { width: 100%; height: 100%; object-fit: cover; }
+.mktHero img.mktHeroBg { width: 100%; height: 100%; object-fit: cover; object-position: center right; }
 .mktHeroShade {
-  background: linear-gradient(90deg, rgba(10,12,16,.38) 0%, rgba(10,12,16,.08) 48%, rgba(10,12,16,.04) 100%);
+  background: linear-gradient(90deg, rgba(8,10,14,.42) 0%, rgba(8,10,14,.12) 42%, rgba(8,10,14,0) 68%);
 }
 
 .mktHeroInner {
@@ -143,9 +143,11 @@
   z-index: 1;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  min-height: 520px;
-  padding: 36px 36px 24px;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 28px;
+  min-height: 560px;
+  padding: 40px 36px 28px;
 }
 
 .mktEyebrow {
@@ -158,14 +160,14 @@
 
 .mktHero .mktEyebrow { color: rgba(255,255,255,.8); }
 .mktHero h1 {
-  max-width: 540px;
-  font-size: clamp(36px, 5vw, 58px);
+  max-width: 560px;
+  font-size: clamp(40px, 5.4vw, 64px);
   color: #fff;
 }
 .mktHeroLead {
-  margin: 12px 0 20px;
-  color: rgba(255,255,255,.88);
-  font-size: 15px;
+  margin: 12px 0 0;
+  color: rgba(255,255,255,.9);
+  font-size: 16px;
 }
 
 .mktSearch {
@@ -533,7 +535,7 @@
 @media (max-width: 820px) {
   .mktNav, .mktHeaderActions { display: none; }
   .mktMenuBtn, .mktMobileNav { display: flex; }
-  .mktHero, .mktHeroInner { min-height: 480px; }
+  .mktHero, .mktHeroInner { min-height: 500px; }
   .mktHeroInner { padding: 24px 16px 18px; }
   .mktSearch { grid-template-columns: 1fr; padding: 10px; }
   .mktField { border-right: 0; border-bottom: 1px solid var(--mkt-line); }

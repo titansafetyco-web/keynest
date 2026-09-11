@@ -26,7 +26,7 @@ export default function HeroDiscover() {
       <section className="mktHero">
         <img
           className="mktHeroBg"
-          src="/images/poolcity.webp"
+          src="/images/citypool.webp"
           alt="Infinity pool overlooking a city skyline"
         />
         <div className="mktHeroShade" />
