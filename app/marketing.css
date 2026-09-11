@@ -135,7 +135,7 @@
 .mktHeroShade { position: absolute; inset: 0; }
 .mktHero img.mktHeroBg { width: 100%; height: 100%; object-fit: cover; }
 .mktHeroShade {
-  background: linear-gradient(90deg, rgba(10,12,16,.52) 0%, rgba(10,12,16,.12) 56%, rgba(10,12,16,.2) 100%);
+  background: linear-gradient(90deg, rgba(10,12,16,.38) 0%, rgba(10,12,16,.08) 48%, rgba(10,12,16,.04) 100%);
 }
 
 .mktHeroInner {
@@ -143,9 +143,9 @@
   z-index: 1;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  justify-content: space-between;
   min-height: 520px;
-  padding: 40px 36px 28px;
+  padding: 36px 36px 24px;
 }
 
 .mktEyebrow {
@@ -168,9 +168,8 @@
   font-size: 15px;
 }
 
-.mktSearchBlock { width: min(720px, 100%); }
-
 .mktSearch {
+  width: min(720px, 100%);
   display: grid;
   grid-template-columns: 1.3fr .9fr 1fr auto;
   align-items: center;
@@ -207,27 +206,29 @@
 .mktField:last-of-type { border-right: 0; }
 .mktSearchBtn { min-width: 96px; }
 
-.mktPills {
+.mktTypeRow {
+  width: min(1120px, calc(100% - 48px));
+  margin: 18px auto 0;
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
-  margin-top: 12px;
+  gap: 8px;
 }
 
-.mktPills button {
-  height: 28px;
-  padding: 0 12px;
-  border: 1px solid rgba(255,255,255,.32);
-  background: rgba(255,255,255,.12);
-  color: #fff;
+.mktTypeRow button {
+  height: 32px;
+  padding: 0 14px;
+  border: 1px solid var(--mkt-line);
+  background: #fff;
+  color: #333;
   border-radius: 999px;
   font-size: 12px;
 }
 
-.mktPills button.active,
-.mktPills button:hover {
-  background: #fff;
-  color: var(--mkt-ink);
+.mktTypeRow button.active,
+.mktTypeRow button:hover {
+  background: var(--mkt-ink);
+  color: #fff;
+  border-color: var(--mkt-ink);
 }
 
 .mktCredit {
@@ -238,7 +239,7 @@
   color: rgba(255,255,255,.68);
 }
 
-.mktSection { padding: 64px 0; }
+.mktSection { padding: 56px 0; }
 .mktSection h2 { font-size: clamp(28px, 3.4vw, 40px); }
 .mktSectionHead {
   display: flex;
@@ -249,21 +250,16 @@
 }
 .mktSectionHead p { margin-top: 6px; }
 
-.mktTabs { display: flex; gap: 6px; flex-wrap: wrap; }
+.mktTabs { display: flex; gap: 16px; flex-wrap: wrap; align-items: center; }
 .mktTabs button {
-  height: 32px;
-  padding: 0 12px;
-  border: 1px solid var(--mkt-line);
-  background: #fff;
-  border-radius: 999px;
-  font-size: 12px;
-  color: #333;
+  height: 36px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font-size: 13px;
+  color: var(--mkt-muted);
 }
-.mktTabs button.active {
-  background: var(--mkt-ink);
-  color: #fff;
-  border-color: var(--mkt-ink);
-}
+.mktTabs button.active { color: var(--mkt-ink); font-weight: 600; }
 
 .mktFeaturedGrid {
   display: grid;
@@ -356,6 +352,12 @@
   padding-top: 22px;
   border-top: 1px solid var(--mkt-line);
 }
+.mktStat {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+.mktStat svg { margin-top: 4px; color: var(--mkt-ink); }
 .mktStats strong { display: block; font-size: 22px; letter-spacing: -.03em; }
 .mktStats span { color: var(--mkt-muted); font-size: 12px; }
 .mktStatsNote {
@@ -405,7 +407,22 @@
 .mktAgentCard button { width: 88px; margin: 0 auto; }
 
 .mktApp { background: var(--mkt-soft); }
+.mktAppGrid {
+  display: grid;
+  grid-template-columns: .8fr 1.2fr .7fr;
+  gap: 28px;
+  align-items: center;
+}
 .mktStores { display: flex; gap: 8px; }
+.mktAppFeatures {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 14px;
+  font-size: 13px;
+}
+.mktAppFeatures li { display: flex; align-items: center; gap: 8px; }
 .mktPhones { display: flex; gap: 14px; justify-content: center; }
 .mktPhone {
   width: 176px;
@@ -422,21 +439,24 @@
   margin: 2px auto 8px;
 }
 .mktPhone img { width: 100%; height: 280px; object-fit: cover; border-radius: 16px; }
-.mktPhoneAlt {
-  background: #fff;
-  border: 1px solid var(--mkt-line);
-  color: var(--mkt-ink);
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  min-height: 312px;
+.mktNews { position: relative; }
+.mktNewsInner {
+  display: grid;
+  grid-template-columns: 1fr 160px;
+  align-items: center;
+  gap: 24px;
 }
-.mktPhoneIcons { display: flex; gap: 10px; padding: 10px; }
-.mktPhoneAlt p { padding: 0 10px 12px; color: var(--mkt-ink); font-size: 13px; }
-
-.mktNews { text-align: center; }
 .mktNews h2 { margin-bottom: 8px; }
-.mktNews p { max-width: 420px; margin: 0 auto 16px; }
+.mktNews p { max-width: 420px; margin: 0 0 16px; }
+.mktPlant {
+  width: 120px;
+  height: 140px;
+  margin-left: auto;
+  background:
+    radial-gradient(circle at 50% 80%, #d8e3d6 0 28%, transparent 29%),
+    radial-gradient(circle at 35% 45%, #c5d6c2 0 22%, transparent 23%),
+    radial-gradient(circle at 65% 38%, #b7cbb3 0 20%, transparent 21%);
+}
 .mktNewsForm {
   display: flex;
   justify-content: center;
@@ -506,7 +526,7 @@
 
 @media (max-width: 1100px) {
   .mktFeaturedGrid, .mktAgents { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  .mktSplit, .mktFooterTop { grid-template-columns: 1fr 1fr; }
+  .mktSplit, .mktFooterTop, .mktAppGrid, .mktNewsInner { grid-template-columns: 1fr 1fr; }
   .mktStats { grid-template-columns: repeat(3, 1fr); }
 }
 
@@ -518,9 +538,10 @@
   .mktSearch { grid-template-columns: 1fr; padding: 10px; }
   .mktField { border-right: 0; border-bottom: 1px solid var(--mkt-line); }
   .mktSearchBtn { width: 100%; }
-  .mktFeaturedGrid, .mktAgents, .mktCityGrid, .mktSplit, .mktFooterTop, .mktStats, .mktNewsForm {
+  .mktFeaturedGrid, .mktAgents, .mktCityGrid, .mktSplit, .mktFooterTop, .mktStats, .mktNewsForm, .mktAppGrid, .mktNewsInner {
     grid-template-columns: 1fr;
   }
   .mktSectionHead, .mktFooterBottom, .mktPhones { flex-direction: column; align-items: flex-start; }
+  .mktPlant { display: none; }
   .mktCredit { display: none; }
 }

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, Home, Users } from "lucide-react";
+import { ArrowRight, Home } from "lucide-react";
 import { communities, communityStats } from "@/lib/mock-data";
 
 export default function Communities() {
@@ -27,14 +27,16 @@ export default function Communities() {
         </div>
         <div className="mktStats">
           {communityStats.map(s => (
-            <div key={s.label}>
-              <strong>{s.value}</strong>
-              <span>{s.label}</span>
+            <div key={s.label} className="mktStat">
+              <Home size={16} />
+              <div>
+                <strong>{s.value}</strong>
+                <span>{s.label}</span>
+              </div>
             </div>
           ))}
           <div className="mktStatsNote">
-            <Users size={18} />
-            <Home size={18} />
+            <Home size={16} />
             <span>A more connected tomorrow</span>
           </div>
         </div>

@@ -1,9 +1,9 @@
-import { Bell, Search, Smartphone } from "lucide-react";
+import { Bell, Home, MessageCircle } from "lucide-react";
 
 export default function AppPromo() {
   return (
     <section className="mktSection mktApp">
-      <div className="mktWrap mktSplit">
+      <div className="mktWrap mktAppGrid">
         <div>
           <div className="mktEyebrow">The KeyNest App</div>
           <h2>Real Estate On the Go.</h2>
@@ -20,14 +20,14 @@ export default function AppPromo() {
           </div>
           <div className="mktPhone mktPhoneAlt">
             <div className="mktPhoneBar" />
-            <div className="mktPhoneIcons">
-              <Search size={18} />
-              <Bell size={18} />
-              <Smartphone size={18} />
-            </div>
-            <p>Your next move, in one place.</p>
+            <img src="/images/townliv2.webp" alt="KeyNest app map" />
           </div>
         </div>
+        <ul className="mktAppFeatures">
+          <li><Home size={16} /> Live listings</li>
+          <li><MessageCircle size={16} /> Messages</li>
+          <li><Bell size={16} /> Market updates</li>
+        </ul>
       </div>
     </section>
   );
