@@ -4,14 +4,17 @@ KeyNest is a real-estate social network + agent operating system.
 
 ## Locked deployment targets
 
+These are the only allowed destinations. Do not create a second GitHub repo, Vercel project, Supabase project, or Google Cloud billing account for this app.
+
 - GitHub: https://github.com/titansafetyco-web/keynest.git
+- Production: https://keynest-dynodos7a-titan-energy.vercel.app/
 - Supabase: https://ovjmmpcqtsxlpdkcyute.supabase.co
 - Vercel team: https://vercel.com/titanenergy
+- Google Cloud: titansafetyco@gmail.com / billing 015F35-A9F296-BA7E5B
 
 ## Included
 
-- Public marketing homepage at `/`
-- In-app social shell at `/home`
+- Public homepage at `/`
 - Explore / search
 - Property detail pages
 - Agent and creator profiles
@@ -31,7 +34,16 @@ npm run dev
 
 Open http://localhost:3000
 
-`.env.example` already points `NEXT_PUBLIC_SUPABASE_URL` at the locked Supabase project. Add the anon and service-role keys locally. Never commit `.env.local`.
+`.env.example` already points `NEXT_PUBLIC_SUPABASE_URL` at the locked Supabase project. Add the anon, service-role, and Google Maps keys locally. Never commit `.env.local`.
+
+## Google Maps / Places
+
+Use **only** Google Cloud account `titansafetyco@gmail.com` with billing `015F35-A9F296-BA7E5B`.
+
+1. In that account, enable **Maps JavaScript API** and **Places API**.
+2. Create a browser key. Restrict HTTP referrers to `http://localhost:3000/*` and `https://keynest-dynodos7a-titan-energy.vercel.app/*`.
+3. Set `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY` in `.env.local` and in the locked Vercel project env.
+4. Do not commit the key. Do not use another Google account.
 
 ## Supabase
 
@@ -42,13 +54,28 @@ Open http://localhost:3000
 
 ## Deploy
 
-The production app is intended to live on the **titanenergy** Vercel team, connected to the GitHub repo above. After keys are set:
+Production is **only** https://keynest-dynodos7a-titan-energy.vercel.app/ on the **titanenergy** Vercel team, built from `main` on https://github.com/titansafetyco-web/keynest.git.
+
+Do not `git push` or `vercel --prod` to any other remote or project.
+
+If the Vercel CLI is logged into the **titanenergy** account, link this folder to the existing KeyNest project (do not create a new one) and commit `.vercel/project.json`:
+
+```bash
+vercel link
+```
+
+This machine is not on titanenergy, so that file is not generated here. After keys are set:
 
 ```bash
 git push origin main
 ```
 
-Vercel should build from `main`. Set `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, and `NEXT_PUBLIC_APP_URL` in the Vercel project.
+Vercel should build from `main`. In the Vercel project env set:
+
+- `NEXT_PUBLIC_SUPABASE_URL=https://ovjmmpcqtsxlpdkcyute.supabase.co`
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+- `NEXT_PUBLIC_APP_URL=https://keynest-dynodos7a-titan-energy.vercel.app`
+- `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY` (from titansafetyco@gmail.com / 015F35-A9F296-BA7E5B)
 
 ## Recommended implementation order
 

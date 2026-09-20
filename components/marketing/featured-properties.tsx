@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { MouseEvent, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Heart } from "lucide-react";
 import { featuredListings } from "@/lib/mock-data";
 
@@ -13,10 +14,17 @@ const tabs = [
 ] as const;
 
 export default function FeaturedProperties() {
+  const router = useRouter();
   const [tab, setTab] = useState<(typeof tabs)[number]["id"]>("for-you");
   const list = tab === "for-you"
     ? featuredListings
     : featuredListings.filter(p => p.category === tab);
+
+  function onSave(e: MouseEvent<HTMLButtonElement>) {
+    e.preventDefault();
+    e.stopPropagation();
+    router.push("/login?next=/saved");
+  }
 
   return (
     <section className="mktSection">
@@ -41,7 +49,7 @@ export default function FeaturedProperties() {
               <div className="mktListingMedia">
                 <img src={p.image} alt={p.address} />
                 {p.badge && <span className={`mktBadge ${p.badge === "Price Drop" ? "drop" : ""}`}>{p.badge}</span>}
-                <button type="button" className="mktHeart" aria-label="Save" onClick={e => e.preventDefault()}>
+                <button type="button" className="mktHeart" aria-label="Sign in to save" onClick={onSave}>
                   <Heart size={14} />
                 </button>
               </div>

@@ -1,0 +1,17 @@
+---
+description: Push and deploy KeyNest only to the locked GitHub, Vercel, Supabase, and Google Cloud targets.
+alwaysApply: true
+---
+
+# Locked deploy targets
+
+These are the only allowed destinations for this repo.
+
+- Git remotes: `https://github.com/titansafetyco-web/keynest.git` only. `origin` must stay on that URL. Never add another remote or create a second GitHub repo for this app.
+- Production: `https://keynest-dynodos7a-titan-energy.vercel.app/` on the titanenergy Vercel team. Never create a new Vercel project. Never `vercel --prod` or `vercel deploy` to any other team or project.
+- Supabase: `https://ovjmmpcqtsxlpdkcyute.supabase.co` only. Never create a second Supabase project or change `NEXT_PUBLIC_SUPABASE_URL`.
+- Google Cloud: `titansafetyco@gmail.com` only, billing account `015F35-A9F296-BA7E5B`. Maps JavaScript API and Places API only from this account. Never create a second Google Cloud billing account or use another Gmail for Maps/Places. Restrict keys to `http://localhost:3000/*` and `https://keynest-dynodos7a-titan-energy.vercel.app/*`. Never commit `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY`.
+
+Push with `git push origin main` to that GitHub remote. Do not push to any other host.
+
+Constants live in `lib/deploy-lock.ts`.

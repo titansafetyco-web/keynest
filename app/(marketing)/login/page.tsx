@@ -5,7 +5,7 @@ export default function LoginPage() {
     <section className="mktStub">
       <div className="mktEyebrow">Sign in</div>
       <h1>Welcome back.</h1>
-      <p>Auth is not connected yet. Use this form as the public entry point.</p>
+      <p>Sign in to save favorites and continue where you left off.</p>
       <form className="mktAuth">
         <input type="email" placeholder="Email" required />
         <input type="password" placeholder="Password" required />

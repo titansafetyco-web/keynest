@@ -1,0 +1,23 @@
+---
+description: UI changes are scoped to the selected device shell; actions stay shared across the platform.
+alwaysApply: true
+---
+
+# Per-device UI, shared behavior
+
+- **Visual changes** (layout, color, spacing, type, chrome): scope CSS to the selected preview with `html[data-device="iphone"]`, `html[data-device="ipad"]`, or `html[data-device="desktop"]`. Put overrides in `app/device-ui.css`. Infer the device from the user's last shell (iPhone / iPad / Desktop), `knDevice` in the iframe URL, or `localStorage kn-device`.
+- **Do not** restyle all devices when the user is iterating on one shell.
+- **Functionality** (save, login, search, navigation, data, handlers): edit shared TS/TSX components only. Every shell uses the same actions.
+
+```css
+/* UI for iPhone only */
+html[data-device="iphone"] .mktHero h1 { font-size: 36px; }
+```
+
+```tsx
+/* Shared action — all devices */
+function onSave(e: MouseEvent<HTMLButtonElement>) {
+  e.preventDefault();
+  router.push("/login?next=/saved");
+}
+```

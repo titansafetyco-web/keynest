@@ -1,0 +1,14 @@
+---
+description: Never lock the Cursor browser preview. That lock is what shows the Take Control button.
+alwaysApply: true
+---
+
+# No Take Control overlay
+
+Do **not** call `browser_lock` with `action: "lock"` in this project.
+
+That lock is what shows the white **Take Control** chip on the preview. The user has forbidden it.
+
+- If a tab is already locked, unlock it immediately.
+- Verify UI without locking. Use screenshots/snapshots only.
+- Do not add a Take Control button to the KeyNest app. It does not exist in the product.

@@ -1,0 +1,344 @@
+.devShell {
+  min-height: 100vh;
+  background: #1c1b18;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 28px 24px 88px;
+  box-sizing: border-box;
+}
+
+.devShell-desktop {
+  background: #cfc6b8;
+  padding: 36px 32px 96px;
+}
+
+.devDesktop {
+  width: min(1280px, 100%);
+  height: calc(100vh - 132px);
+  min-height: 560px;
+  display: flex;
+  flex-direction: column;
+  background: #fbf9f7;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 24px 80px rgba(23, 23, 21, .28);
+  border: 1px solid rgba(255, 255, 255, .55);
+}
+
+.devWindowBar {
+  flex-shrink: 0;
+  height: 40px;
+  display: grid;
+  grid-template-columns: 72px 1fr 72px;
+  align-items: center;
+  background: #ece6dc;
+  border-bottom: 1px solid #d9d1c5;
+}
+
+.devTraffic {
+  display: flex;
+  gap: 7px;
+  padding-left: 14px;
+}
+
+.devTraffic span {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.devTraffic span:nth-child(1) { background: #ff5f57; }
+.devTraffic span:nth-child(2) { background: #febc2e; }
+.devTraffic span:nth-child(3) { background: #28c840; }
+
+.devWindowTitle {
+  text-align: center;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .02em;
+  color: #6f706c;
+}
+
+.devDesktopBody {
+  flex: 1;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.devDesktopBody::-webkit-scrollbar { display: none; width: 0; height: 0; }
+
+.devDevice {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  overflow: visible;
+}
+
+.devBezel {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: stretch;
+  background: #111110;
+  border: 3px solid #2a2926;
+  box-shadow:
+    0 0 0 1px #0a0a09,
+    0 28px 80px rgba(0, 0, 0, .45);
+  overflow: hidden;
+  pointer-events: auto;
+}
+
+.devDevice-iphone .devBezel {
+  border-radius: 48px;
+  padding: 10px 10px 16px;
+}
+
+.devDevice-ipad .devBezel {
+  border-radius: 32px;
+  padding: 14px 14px 28px;
+}
+
+.devStatusBar {
+  position: relative;
+  z-index: 2;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 18px;
+  color: #fff;
+  pointer-events: none;
+}
+.devTime {
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+}
+.devStatusIcons {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.devIsland {
+  width: 96px;
+  height: 28px;
+  border-radius: 20px;
+  background: #000;
+  box-shadow: inset 0 0 0 1px #1a1a18;
+}
+
+.devDevice-iphone .devStatusBar {
+  height: 52px;
+  padding: 11px 26px 7px;
+}
+.devDevice-iphone .devIsland {
+  position: absolute;
+  left: 50%;
+  top: 9px;
+  width: 118px;
+  height: 34px;
+  border-radius: 18px;
+  transform: translateX(-50%);
+  background: #050505;
+  box-shadow: none;
+}
+.devDevice-iphone .devTime {
+  position: relative;
+  z-index: 1;
+  padding: 4px 0 0 2px;
+  font-size: 16px;
+  font-weight: 600;
+}
+.devDevice-iphone .devStatusIcons,
+.devDevice-ipad .devStatusIcons {
+  position: relative;
+  z-index: 1;
+  gap: 6px;
+  padding: 4px 2px 0 0;
+}
+.devDevice-iphone .devSignal,
+.devDevice-ipad .devSignal {
+  height: 11px;
+  gap: 2px;
+}
+.devDevice-iphone .devSignal span,
+.devDevice-ipad .devSignal span {
+  width: 3px;
+  border-radius: 1px;
+}
+.devDevice-iphone .devSignal span:nth-child(1),
+.devDevice-ipad .devSignal span:nth-child(1) { height: 4px; }
+.devDevice-iphone .devSignal span:nth-child(2),
+.devDevice-ipad .devSignal span:nth-child(2) { height: 6px; }
+.devDevice-iphone .devSignal span:nth-child(3),
+.devDevice-ipad .devSignal span:nth-child(3) { height: 8px; }
+.devDevice-iphone .devSignal span:nth-child(4),
+.devDevice-ipad .devSignal span:nth-child(4) { height: 11px; }
+.devDevice-iphone .devLte,
+.devDevice-ipad .devLte {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  line-height: 1;
+}
+.devDevice-iphone .devBattery,
+.devDevice-ipad .devBattery {
+  width: 22px;
+  height: 11px;
+  border-radius: 3px;
+  border: 1.25px solid rgba(255, 255, 255, .92);
+}
+.devDevice-iphone .devBattery::before,
+.devDevice-ipad .devBattery::before {
+  inset: 2px 2.5px 2px 2px;
+  border-radius: 1px;
+}
+.devDevice-iphone .devBattery::after,
+.devDevice-ipad .devBattery::after {
+  width: 1.5px;
+  height: 5px;
+  right: -3px;
+  top: 50%;
+  transform: translateY(-50%);
+  border-radius: 0 1px 1px 0;
+}
+
+.devDevice-ipad .devIsland { width: 72px; height: 12px; border-radius: 8px; }
+
+.devSignal,
+.devWifi,
+.devBattery {
+  display: block;
+}
+
+.devSignal {
+  display: flex;
+  align-items: flex-end;
+  gap: 1.5px;
+  height: 10px;
+  background: none;
+}
+.devSignal span {
+  display: block;
+  width: 3px;
+  border-radius: 0.5px;
+  background: #fff;
+}
+.devSignal span:nth-child(1) { height: 3px; }
+.devSignal span:nth-child(2) { height: 5px; }
+.devSignal span:nth-child(3) { height: 7px; }
+.devSignal span:nth-child(4) { height: 10px; }
+
+.devWifi {
+  width: 12px;
+  height: 10px;
+  border-radius: 12px 12px 0 0;
+  background: transparent;
+  border: 2px solid #fff;
+  border-bottom: 0;
+}
+
+.devLte {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .04em;
+  line-height: 1;
+  color: #fff;
+}
+
+.devBattery {
+  width: 20px;
+  height: 10px;
+  border-radius: 3px;
+  background: transparent;
+  border: 1.5px solid #fff;
+  position: relative;
+}
+
+.devBattery::after {
+  content: "";
+  position: absolute;
+  right: -3px;
+  top: 2px;
+  width: 2px;
+  height: 4px;
+  border-radius: 0 1px 1px 0;
+  background: #fff;
+}
+
+.devBattery::before {
+  content: "";
+  position: absolute;
+  inset: 1.5px 6px 1.5px 1.5px;
+  background: #fff;
+  border-radius: 1px;
+}
+
+.devStage {
+  display: block;
+  position: relative;
+  z-index: 1;
+  border: 0;
+  background: #fbf9f7;
+  border-radius: 28px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  pointer-events: auto;
+  isolation: isolate;
+}
+.devStage::-webkit-scrollbar { display: none; width: 0; height: 0; }
+
+.devDevice-ipad .devStage { border-radius: 12px; }
+
+.devHome {
+  width: 108px;
+  height: 4px;
+  margin: 8px auto 0;
+  border-radius: 99px;
+  background: rgba(255, 255, 255, .55);
+  pointer-events: none;
+}
+.devDevice-ipad .devHome {
+  width: 140px;
+  height: 5px;
+  margin: 12px auto 2px;
+}
+
+.devPicker {
+  position: fixed;
+  left: 50%;
+  bottom: 22px;
+  transform: translateX(-50%);
+  z-index: 50;
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  background: #f3efe8;
+  border: 1px solid #d9d1c5;
+  border-radius: 999px;
+  box-shadow: 0 12px 36px rgba(23, 23, 21, .22);
+}
+
+.devPicker button {
+  height: 32px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: #6f706c;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.devPicker button.active {
+  background: #8a704e;
+  color: #fff;
+}

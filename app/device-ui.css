@@ -1,0 +1,188 @@
+/* Device-scoped UI overrides (dev preview).
+   Shared styles stay in marketing.css / globals.css.
+   Visual-only changes go under the matching html[data-device] root.
+   Do not put click handlers, routing, or auth behavior here. */
+
+html[data-device="iphone"],
+html[data-device="ipad"] {
+  height: 100%;
+  overflow: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+html[data-device="iphone"] body,
+html[data-device="ipad"] body {
+  height: 100%;
+  overflow: hidden;
+}
+html[data-device="desktop"] {
+  overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+html[data-device="iphone"] .mktHeaderInner,
+html[data-device="ipad"] .mktHeaderInner { display: flex; }
+html[data-device="iphone"] .mktNav,
+html[data-device="ipad"] .mktNav,
+html[data-device="iphone"] .mktHeaderActions,
+html[data-device="ipad"] .mktHeaderActions { display: none; }
+html[data-device="iphone"] .mktMenuBtn,
+html[data-device="ipad"] .mktMenuBtn,
+html[data-device="iphone"] .mktMobileNav,
+html[data-device="ipad"] .mktMobileNav { display: flex; }
+html[data-device="iphone"] .mktHero,
+html[data-device="ipad"] .mktHero { height: auto; min-height: 520px; }
+html[data-device="iphone"] .mkt,
+html[data-device="ipad"] .mkt { --mkt-gutter: 20px; min-height: 100%; }
+html[data-device="iphone"] .mktHeroInner,
+html[data-device="ipad"] .mktHeroInner { padding: 28px var(--mkt-gutter) 20px; gap: 28px; }
+html[data-device="iphone"] .mktHero h1 span,
+html[data-device="ipad"] .mktHero h1 span { white-space: normal; }
+html[data-device="ipad"] .mktSearchRow { justify-content: stretch; }
+html[data-device="ipad"] .mktSearch { grid-template-columns: 1fr; padding: 10px; }
+html[data-device="ipad"] .mktField,
+html[data-device="ipad"] .mktPick { border-right: 0; border-bottom: 1px solid var(--mkt-line); }
+html[data-device="ipad"] .mktPickList { left: 0; right: 0; }
+html[data-device="ipad"] .mktSearchBtn { width: 100%; margin-left: 0; }
+
+html[data-device="iphone"] .mktHero { min-height: 640px; }
+html[data-device="iphone"] .mktHeroInner { gap: 22px; padding-bottom: 24px; }
+html[data-device="iphone"] .mktSearchRow { justify-content: stretch; }
+html[data-device="iphone"] .mktSearch {
+  width: 100%;
+  grid-template-columns: 1fr 1fr;
+  grid-template-areas:
+    "loc loc"
+    "deal beds"
+    "type type"
+    "go go";
+  gap: 8px;
+  padding: 12px;
+  border-radius: 22px;
+  background: color-mix(in srgb, #171715 34%, transparent);
+  border: 1px solid rgba(255, 255, 255, .3);
+  box-shadow: 0 18px 44px rgba(0, 0, 0, .28);
+  overflow: visible;
+}
+html[data-device="iphone"] .mktSearch > .mktField { grid-area: loc; }
+html[data-device="iphone"] .mktSearch > .mktPick:nth-of-type(1) { grid-area: deal; }
+html[data-device="iphone"] .mktSearch > .mktPick:nth-of-type(2) { grid-area: beds; }
+html[data-device="iphone"] .mktSearch > .mktPick:nth-of-type(3) { grid-area: type; }
+html[data-device="iphone"] .mktSearch .mktField,
+html[data-device="iphone"] .mktSearch .mktPick {
+  height: 46px;
+  min-width: 0;
+  border: 0;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, .16);
+  padding: 0 14px;
+}
+html[data-device="iphone"] .mktSearch .mktPick:has([aria-expanded="true"]) { z-index: 20; }
+html[data-device="iphone"] .mktSearch .mktField input,
+html[data-device="iphone"] .mktSearch .mktPickBtn {
+  height: 46px;
+  font-size: 15px;
+}
+html[data-device="iphone"] .mktPickList {
+  left: 0;
+  right: 0;
+  top: auto;
+  bottom: calc(100% + 6px);
+  width: auto;
+  min-width: 100%;
+  z-index: 21;
+  border-radius: 14px;
+  background: #171715;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  isolation: auto;
+  border: 1px solid rgba(255, 255, 255, .18);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, .55);
+}
+html[data-device="iphone"] .mktPickList::after {
+  top: 100%;
+  bottom: auto;
+  height: 8px;
+}
+html[data-device="iphone"] .mktPickList button {
+  height: 44px;
+  font-size: 15px;
+}
+html[data-device="iphone"] .mktSearchBtn {
+  grid-area: go;
+  width: 100%;
+  height: 48px;
+  min-height: 48px;
+  margin: 2px 0 0;
+  border-radius: 14px;
+  font-size: 16px;
+  font-weight: 600;
+  background: #C4B08A;
+  color: #fff;
+}
+html[data-device="iphone"] .mktSearchBtn:hover {
+  background: #F3EFE8;
+  color: #8A704E;
+}
+html[data-device="iphone"] .mktTypeRow,
+html[data-device="ipad"] .mktTypeRow { flex-direction: column; align-items: stretch; gap: 8px; }
+html[data-device="iphone"] .mktTypeTrack button,
+html[data-device="ipad"] .mktTypeTrack button { flex: 1 1 calc(50% - 4px); }
+html[data-device="iphone"] .mktFeaturedGrid,
+html[data-device="ipad"] .mktFeaturedGrid,
+html[data-device="iphone"] .mktAgents,
+html[data-device="ipad"] .mktAgents,
+html[data-device="iphone"] .mktCityGrid,
+html[data-device="ipad"] .mktCityGrid,
+html[data-device="iphone"] .mktSplit,
+html[data-device="ipad"] .mktSplit,
+html[data-device="iphone"] .mktFooterTop,
+html[data-device="ipad"] .mktFooterTop,
+html[data-device="iphone"] .mktStats,
+html[data-device="ipad"] .mktStats,
+html[data-device="iphone"] .mktNewsForm,
+html[data-device="ipad"] .mktNewsForm,
+html[data-device="iphone"] .mktAppGrid,
+html[data-device="ipad"] .mktAppGrid,
+html[data-device="iphone"] .mktNewsInner,
+html[data-device="ipad"] .mktNewsInner {
+  grid-template-columns: 1fr;
+}
+html[data-device="iphone"] .mktSectionHead,
+html[data-device="ipad"] .mktSectionHead,
+html[data-device="iphone"] .mktFooterBottom,
+html[data-device="ipad"] .mktFooterBottom,
+html[data-device="iphone"] .mktPhones,
+html[data-device="ipad"] .mktPhones { flex-direction: column; align-items: flex-start; }
+html[data-device="iphone"] .mktPlant,
+html[data-device="ipad"] .mktPlant { display: none; }
+
+html[data-device="iphone"] .pac-container {
+  z-index: 10000;
+  margin-top: 6px;
+  background: #171715;
+  border: 1px solid rgba(255, 255, 255, .18);
+  border-radius: 14px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, .55);
+  overflow: hidden;
+  font-family: inherit;
+}
+html[data-device="iphone"] .pac-item {
+  height: 44px;
+  line-height: 44px;
+  padding: 0 14px;
+  color: #fff;
+  border-top: 1px solid rgba(255, 255, 255, .1);
+  cursor: pointer;
+}
+html[data-device="iphone"] .pac-item:first-child { border-top: 0; }
+html[data-device="iphone"] .pac-item:hover,
+html[data-device="iphone"] .pac-item-selected {
+  background: rgba(255, 255, 255, .14);
+}
+html[data-device="iphone"] .pac-item-query,
+html[data-device="iphone"] .pac-matched {
+  color: #fff;
+}
