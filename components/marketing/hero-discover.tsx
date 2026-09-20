@@ -16,6 +16,7 @@ import {
   Trees
 } from "lucide-react";
 import { featuredListings } from "@/lib/mock-data";
+import HeroStreetMap from "@/components/marketing/hero-street-map";
 
 const types = [
   { id: "House", icon: Home },
@@ -32,12 +33,6 @@ const dealOptions = [
   { value: "rent", label: "Rent" }
 ];
 
-const pinLayout: Record<string, { x: number; y: number }> = {
-  "jc-skyline-estate": { x: 32, y: 36 },
-  "hoboken-townhome": { x: 68, y: 26 },
-  "nyc-penthouse": { x: 48, y: 52 },
-  "jersey-condo": { x: 28, y: 68 }
-};
 const bedOptions = [
   { value: "", label: "Bedrooms" },
   { value: "1", label: "1+" },
@@ -98,6 +93,7 @@ function FieldPick({
 export default function HeroDiscover() {
   const router = useRouter();
   const formRef = useRef<HTMLFormElement>(null);
+  const typeTrackRef = useRef<HTMLDivElement>(null);
   const [location, setLocation] = useState("Jersey City, NJ");
   const [deal, setDeal] = useState("buy");
   const [beds, setBeds] = useState("");
@@ -114,6 +110,54 @@ export default function HeroDiscover() {
     }
     document.addEventListener("pointerdown", onDoc);
     return () => document.removeEventListener("pointerdown", onDoc);
+  }, []);
+
+  useEffect(() => {
+    const el = typeTrackRef.current;
+    if (!el) return;
+    let active = false;
+    let moved = false;
+    let startX = 0;
+    let startScroll = 0;
+
+    function onDown(e: PointerEvent) {
+      if (e.pointerType === "mouse" && e.button !== 0) return;
+      active = true;
+      moved = false;
+      startX = e.clientX;
+      startScroll = el.scrollLeft;
+      el.setPointerCapture(e.pointerId);
+    }
+    function onMove(e: PointerEvent) {
+      if (!active) return;
+      const dx = e.clientX - startX;
+      if (Math.abs(dx) > 6) moved = true;
+      if (moved) el.scrollLeft = startScroll - dx;
+    }
+    function onUp(e: PointerEvent) {
+      if (!active) return;
+      active = false;
+      if (el.hasPointerCapture(e.pointerId)) el.releasePointerCapture(e.pointerId);
+    }
+    function onClick(e: MouseEvent) {
+      if (!moved) return;
+      e.preventDefault();
+      e.stopPropagation();
+      moved = false;
+    }
+
+    el.addEventListener("pointerdown", onDown);
+    el.addEventListener("pointermove", onMove);
+    el.addEventListener("pointerup", onUp);
+    el.addEventListener("pointercancel", onUp);
+    el.addEventListener("click", onClick, true);
+    return () => {
+      el.removeEventListener("pointerdown", onDown);
+      el.removeEventListener("pointermove", onMove);
+      el.removeEventListener("pointerup", onUp);
+      el.removeEventListener("pointercancel", onUp);
+      el.removeEventListener("click", onClick, true);
+    };
   }, []);
 
   function onSubmit(e: FormEvent) {
@@ -141,93 +185,88 @@ export default function HeroDiscover() {
             <h1>More than a Home.<br /><span>A Brighter Tomorrow.</span></h1>
           </div>
 
-          <div className="mktSearchRow">
-            <form className="mktSearch" ref={formRef} onSubmit={onSubmit}>
-              <FieldPick
-                label="Buy"
-                value={deal}
-                options={dealOptions}
-                open={openMenu === "deal"}
-                onToggle={() => setOpenMenu(openMenu === "deal" ? null : "deal")}
-                onChange={value => {
-                  setDeal(value);
-                  setOpenMenu(null);
-                }}
-              />
-              <label className="mktField">
-                <MapPin size={15} />
-                <input
-                  value={location}
-                  onChange={e => setLocation(e.target.value)}
-                  placeholder="City or neighborhood"
-                  aria-label="Location"
-                  autoComplete="off"
-                  onFocus={() => setOpenMenu(null)}
+          <div className="mktHeroTools">
+            <div className="mktSearchRow">
+              <form className="mktSearch" ref={formRef} onSubmit={onSubmit}>
+                <FieldPick
+                  label="Buy"
+                  value={deal}
+                  options={dealOptions}
+                  open={openMenu === "deal"}
+                  onToggle={() => setOpenMenu(openMenu === "deal" ? null : "deal")}
+                  onChange={value => {
+                    setDeal(value);
+                    setOpenMenu(null);
+                  }}
                 />
-              </label>
-              <FieldPick
-                label="Bedrooms"
-                value={beds}
-                options={bedOptions}
-                open={openMenu === "beds"}
-                onToggle={() => setOpenMenu(openMenu === "beds" ? null : "beds")}
-                onChange={value => {
-                  setBeds(value);
-                  setOpenMenu(null);
-                }}
-              />
-              <FieldPick
-                label="Property Type"
-                value={type}
-                options={[
-                  { value: "", label: "Property Type" },
-                  ...types.map(item => ({ value: item.id, label: item.id }))
-                ]}
-                open={openMenu === "type"}
-                onToggle={() => setOpenMenu(openMenu === "type" ? null : "type")}
-                onChange={value => {
-                  setType(value);
-                  setOpenMenu(null);
-                }}
-              />
-              <button className="mktSearchBtn" type="submit">
-                <Search size={14} /> <span>Search</span>
-              </button>
-            </form>
+                <label className="mktField">
+                  <MapPin size={15} />
+                  <input
+                    value={location}
+                    onChange={e => setLocation(e.target.value)}
+                    placeholder="City or neighborhood"
+                    aria-label="Location"
+                    autoComplete="off"
+                    onFocus={() => setOpenMenu(null)}
+                  />
+                </label>
+                <FieldPick
+                  label="Bedrooms"
+                  value={beds}
+                  options={bedOptions}
+                  open={openMenu === "beds"}
+                  onToggle={() => setOpenMenu(openMenu === "beds" ? null : "beds")}
+                  onChange={value => {
+                    setBeds(value);
+                    setOpenMenu(null);
+                  }}
+                />
+                <FieldPick
+                  label="Property Type"
+                  value={type}
+                  options={[
+                    { value: "", label: "Property Type" },
+                    ...types.map(item => ({ value: item.id, label: item.id }))
+                  ]}
+                  open={openMenu === "type"}
+                  onToggle={() => setOpenMenu(openMenu === "type" ? null : "type")}
+                  onChange={value => {
+                    setType(value);
+                    setOpenMenu(null);
+                  }}
+                />
+                <button className="mktSearchBtn" type="submit">
+                  <Search size={14} /> <span>Search</span>
+                </button>
+              </form>
+            </div>
+
+            <button
+              type="button"
+              className="mktViewMap"
+              onClick={() => {
+                setOpenMenu(null);
+                setMapOpen(true);
+              }}
+            >
+              <span>View map</span>
+              <i className="mktViewMapArrow" aria-hidden="true">
+                <ChevronDown size={18} />
+              </i>
+            </button>
           </div>
         </div>
 
-        <button
-          type="button"
-          className="mktViewMap"
-          onClick={() => {
-            setOpenMenu(null);
-            setMapOpen(true);
-          }}
-        >
-          <span>View map</span>
-          <i className="mktViewMapArrow" aria-hidden="true">
-            <ChevronDown size={18} />
-          </i>
-        </button>
-
         <div className="mktHeroMap" aria-hidden={!mapOpen}>
-          <div className="mktHeroMapSurface" />
-          {featuredListings.map(listing => {
-            const pin = pinLayout[listing.id];
-            if (!pin) return null;
-            return (
-              <button
-                key={listing.id}
-                type="button"
-                className="mktMapPin"
-                style={{ left: `${pin.x}%`, top: `${pin.y}%` }}
-                onClick={() => router.push(`/property/${listing.id}`)}
-              >
-                <span>{listing.price}</span>
-              </button>
-            );
-          })}
+          {mapOpen ? (
+            <HeroStreetMap
+              open={mapOpen}
+              listings={featuredListings}
+              onSelect={id => router.push(`/property/${id}`)}
+            />
+          ) : (
+            <div className="mktHeroMapSurface" />
+          )}
           <button
             type="button"
             className="mktMapClose"
@@ -240,7 +279,7 @@ export default function HeroDiscover() {
 
       <div className="mktTypeRow">
         <span className="mktTypeLabel">Type</span>
-        <div className="mktTypeTrack" role="tablist" aria-label="Property type">
+        <div className="mktTypeTrack" ref={typeTrackRef} role="tablist" aria-label="Property type">
           {types.map(item => {
             const Icon = item.icon;
             return (
