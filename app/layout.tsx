@@ -17,6 +17,20 @@ const playfair = Playfair_Display({
   variable: "--font-playfair"
 });
 
+const setPhoneBreakpoint = `
+(function () {
+  try {
+    var query = window.matchMedia("(max-width: 820px)");
+    function apply() {
+      document.documentElement.setAttribute("data-bp", query.matches ? "phone" : "wide");
+    }
+    apply();
+    if (query.addEventListener) query.addEventListener("change", apply);
+    else if (query.addListener) query.addListener(apply);
+  } catch (e) {}
+})();
+`;
+
 const stripCursorRefs = `
 (function () {
   function strip(node) {
@@ -65,11 +79,12 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
 
   return (
     <html lang="en" className={`${inter.variable} ${playfair.variable}`} suppressHydrationWarning>
-      {process.env.NODE_ENV === "development" ? (
-        <head>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: setPhoneBreakpoint }} />
+        {process.env.NODE_ENV === "development" ? (
           <script dangerouslySetInnerHTML={{ __html: stripCursorRefs }} />
-        </head>
-      ) : null}
+        ) : null}
+      </head>
       <body suppressHydrationWarning>{app}</body>
     </html>
   );

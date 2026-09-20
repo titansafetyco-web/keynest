@@ -34,16 +34,11 @@ npm run dev
 
 Open http://localhost:3000
 
-`.env.example` already points `NEXT_PUBLIC_SUPABASE_URL` at the locked Supabase project. Add the anon, service-role, and Google Maps keys locally. Never commit `.env.local`.
+`.env.example` already points `NEXT_PUBLIC_SUPABASE_URL` at the locked Supabase project. Add the anon and service-role keys locally. Never commit `.env.local`.
 
 ## Google Maps / Places
 
-Use **only** Google Cloud account `titansafetyco@gmail.com` with billing `015F35-A9F296-BA7E5B`.
-
-1. In that account, enable **Maps JavaScript API** and **Places API**.
-2. Create a browser key. Restrict HTTP referrers to `http://localhost:3000/*` and `https://keynest-dynodos7a-titan-energy.vercel.app/*`.
-3. Set `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY` in `.env.local` and in the locked Vercel project env.
-4. Do not commit the key. Do not use another Google account.
+Paused until Google Cloud billing on `titansafetyco@gmail.com` / `015F35-A9F296-BA7E5B` is open. Location search is a plain text field. Do not wire Maps/Places from another Google account.
 
 ## Supabase
 
@@ -75,7 +70,6 @@ Vercel should build from `main`. In the Vercel project env set:
 - `NEXT_PUBLIC_SUPABASE_URL=https://ovjmmpcqtsxlpdkcyute.supabase.co`
 - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
 - `NEXT_PUBLIC_APP_URL=https://keynest-dynodos7a-titan-energy.vercel.app`
-- `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY` (from titansafetyco@gmail.com / 015F35-A9F296-BA7E5B)
 
 ## Recommended implementation order
 

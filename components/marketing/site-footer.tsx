@@ -65,7 +65,7 @@ export default function SiteFooter() {
           ))}
         </div>
         <div className="mktFooterBottom">
-          <span>© 2025 KeyNest. All rights reserved.</span>
+          <span>© 2027 KeyNest. All rights reserved.</span>
           <strong>A GLOBAL COMMUNITY BUILT AROUND PEOPLE.</strong>
         </div>
       </div>

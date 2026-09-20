@@ -1,7 +1,6 @@
-/* Device-scoped UI overrides (dev preview).
-   Shared styles stay in marketing.css / globals.css.
-   Visual-only changes go under the matching html[data-device] root.
-   Do not put click handlers, routing, or auth behavior here. */
+/* Device-scoped UI overrides (dev preview) plus the phone breakpoint.
+   html[data-device="iphone"] is the iPhone shell. html[data-bp="phone"] is
+   the live site at max-width 820px. Shared actions stay in TS/TSX. */
 
 html[data-device="iphone"],
 html[data-device="ipad"] {
@@ -22,23 +21,62 @@ html[data-device="desktop"] {
   -ms-overflow-style: none;
 }
 
-html[data-device="iphone"] .mktHeaderInner,
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktHeaderInner,
 html[data-device="ipad"] .mktHeaderInner { display: flex; }
-html[data-device="iphone"] .mktNav,
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktNav,
 html[data-device="ipad"] .mktNav,
-html[data-device="iphone"] .mktHeaderActions,
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktHeaderActions,
 html[data-device="ipad"] .mktHeaderActions { display: none; }
-html[data-device="iphone"] .mktMenuBtn,
-html[data-device="ipad"] .mktMenuBtn,
-html[data-device="iphone"] .mktMobileNav,
-html[data-device="ipad"] .mktMobileNav { display: flex; }
-html[data-device="iphone"] .mktHero,
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktMenuBtn,
+html[data-device="ipad"] .mktMenuBtn { display: flex; }
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktMobileNav,
+html[data-device="ipad"] .mktMobileNav { display: grid; }
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktMobileScrim,
+html[data-device="ipad"] .mktMobileScrim { display: block; }
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktMobileNavInner {
+  gap: 0;
+  padding: 6px 16px 18px;
+  border-bottom: 0;
+  border-radius: 0 0 22px 22px;
+  box-shadow: 0 24px 56px rgba(23, 23, 21, .18);
+}
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktMobileNavInner a {
+  min-height: 48px;
+  padding: 0 10px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 500;
+}
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktMobileNavInner a.active {
+  background: #f4f0ea;
+  color: #171715;
+}
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktMobileNavActions {
+  margin-top: 8px;
+  padding: 12px 4px 4px;
+}
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktMobileNavActions .mktTextBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  font-size: 15px;
+  color: #171715;
+}
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktMobileNavActions .mktBtn {
+  height: 48px;
+  border-radius: 14px;
+  background: #c4b08a;
+  font-size: 16px;
+  font-weight: 600;
+}
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktHero,
 html[data-device="ipad"] .mktHero { height: auto; min-height: 520px; }
-html[data-device="iphone"] .mkt,
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mkt,
 html[data-device="ipad"] .mkt { --mkt-gutter: 20px; min-height: 100%; }
-html[data-device="iphone"] .mktHeroInner,
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktHeroInner,
 html[data-device="ipad"] .mktHeroInner { padding: 28px var(--mkt-gutter) 20px; gap: 28px; }
-html[data-device="iphone"] .mktHero h1 span,
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktHero h1 span,
 html[data-device="ipad"] .mktHero h1 span { white-space: normal; }
 html[data-device="ipad"] .mktSearchRow { justify-content: stretch; }
 html[data-device="ipad"] .mktSearch { grid-template-columns: 1fr; padding: 10px; }
@@ -47,10 +85,10 @@ html[data-device="ipad"] .mktPick { border-right: 0; border-bottom: 1px solid va
 html[data-device="ipad"] .mktPickList { left: 0; right: 0; }
 html[data-device="ipad"] .mktSearchBtn { width: 100%; margin-left: 0; }
 
-html[data-device="iphone"] .mktHero { min-height: 640px; }
-html[data-device="iphone"] .mktHeroInner { gap: 22px; padding-bottom: 24px; }
-html[data-device="iphone"] .mktSearchRow { justify-content: stretch; }
-html[data-device="iphone"] .mktSearch {
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktHero { min-height: 640px; }
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktHeroInner { gap: 22px; padding-bottom: 24px; }
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktSearchRow { justify-content: stretch; }
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktSearch {
   width: 100%;
   grid-template-columns: 1fr 1fr;
   grid-template-areas:
@@ -66,12 +104,12 @@ html[data-device="iphone"] .mktSearch {
   box-shadow: 0 18px 44px rgba(0, 0, 0, .28);
   overflow: visible;
 }
-html[data-device="iphone"] .mktSearch > .mktField { grid-area: loc; }
-html[data-device="iphone"] .mktSearch > .mktPick:nth-of-type(1) { grid-area: deal; }
-html[data-device="iphone"] .mktSearch > .mktPick:nth-of-type(2) { grid-area: beds; }
-html[data-device="iphone"] .mktSearch > .mktPick:nth-of-type(3) { grid-area: type; }
-html[data-device="iphone"] .mktSearch .mktField,
-html[data-device="iphone"] .mktSearch .mktPick {
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktSearch > .mktField { grid-area: loc; }
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktSearch > .mktPick:nth-of-type(1) { grid-area: deal; }
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktSearch > .mktPick:nth-of-type(2) { grid-area: beds; }
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktSearch > .mktPick:nth-of-type(3) { grid-area: type; }
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktSearch .mktField,
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktSearch .mktPick {
   height: 46px;
   min-width: 0;
   border: 0;
@@ -79,19 +117,22 @@ html[data-device="iphone"] .mktSearch .mktPick {
   background: rgba(255, 255, 255, .16);
   padding: 0 14px;
 }
-html[data-device="iphone"] .mktSearch .mktPick:has([aria-expanded="true"]) { z-index: 20; }
-html[data-device="iphone"] .mktSearch .mktField input,
-html[data-device="iphone"] .mktSearch .mktPickBtn {
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktSearch .mktPick:has([aria-expanded="true"]) { z-index: 20; }
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktSearch .mktField input,
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktSearch .mktPickBtn {
   height: 46px;
   font-size: 15px;
 }
-html[data-device="iphone"] .mktPickList {
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktPickList {
   left: 0;
   right: 0;
-  top: auto;
-  bottom: calc(100% + 6px);
+  top: calc(100% + 6px);
+  bottom: auto;
   width: auto;
   min-width: 100%;
+  max-height: 220px;
+  overflow-x: hidden;
+  overflow-y: auto;
   z-index: 21;
   border-radius: 14px;
   background: #171715;
@@ -101,16 +142,25 @@ html[data-device="iphone"] .mktPickList {
   border: 1px solid rgba(255, 255, 255, .18);
   box-shadow: 0 16px 40px rgba(0, 0, 0, .55);
 }
-html[data-device="iphone"] .mktPickList::after {
-  top: 100%;
-  bottom: auto;
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktSearch > .mktPick:nth-of-type(3) .mktPickList {
+  top: auto;
+  bottom: calc(100% + 6px);
+  max-height: 260px;
+}
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktPickList::after {
+  top: auto;
+  bottom: 100%;
   height: 8px;
 }
-html[data-device="iphone"] .mktPickList button {
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktSearch > .mktPick:nth-of-type(3) .mktPickList::after {
+  top: 100%;
+  bottom: auto;
+}
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktPickList button {
   height: 44px;
   font-size: 15px;
 }
-html[data-device="iphone"] .mktSearchBtn {
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktSearchBtn {
   grid-area: go;
   width: 100%;
   height: 48px;
@@ -122,67 +172,391 @@ html[data-device="iphone"] .mktSearchBtn {
   background: #C4B08A;
   color: #fff;
 }
-html[data-device="iphone"] .mktSearchBtn:hover {
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktSearchBtn:hover {
   background: #F3EFE8;
   color: #8A704E;
 }
-html[data-device="iphone"] .mktTypeRow,
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktHero {
+  display: flex;
+  flex-direction: column;
+  transition: min-height .55s cubic-bezier(.22, 1, .36, 1);
+}
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktViewMap {
+  display: flex;
+  position: relative;
+  z-index: 6;
+  flex-direction: column;
+  align-items: center;
+  align-self: center;
+  gap: 6px;
+  margin: 0 0 10px;
+  border: 0;
+  background: none;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  text-shadow: 0 1px 10px rgba(0,0,0,.4);
+}
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktViewMapArrow {
+  width: 26px;
+  height: 14px;
+  background: #fff;
+  clip-path: polygon(50% 100%, 0 0, 100% 0);
+}
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktViewMapArrow svg {
+  display: none;
+}
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktHeroMap {
+  display: block;
+  position: relative;
+  z-index: 5;
+  height: 0;
+  opacity: 0;
+  overflow: hidden;
+  pointer-events: none;
+  transition: height .55s cubic-bezier(.22, 1, .36, 1), opacity .4s ease;
+}
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktHero.is-map {
+  min-height: calc(100dvh - 96px);
+  background: #d5ddd4;
+}
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktHero.is-map .mktHeroBg,
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktHero.is-map .mktHeroShade {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .4s ease;
+}
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktHero.is-map .mktHeroCopy {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  margin: 0;
+  transform: translateY(-24px);
+  transition: opacity .35s ease, transform .45s cubic-bezier(.22, 1, .36, 1), max-height .45s ease;
+}
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktHeroCopy {
+  transition: opacity .35s ease, transform .45s cubic-bezier(.22, 1, .36, 1), max-height .45s ease;
+}
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktHero.is-map .mktHeroInner {
+  gap: 10px;
+  padding-top: 12px;
+  padding-bottom: 10px;
+  flex: 0 0 auto;
+  justify-content: flex-start;
+}
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktHero.is-map .mktViewMap { display: none; }
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktHero.is-map .mktHeroMap {
+  display: block;
+  flex: 1 1 auto;
+  height: 420px;
+  min-height: 320px;
+  opacity: 1;
+  pointer-events: auto;
+  margin: 0 var(--mkt-gutter) 16px;
+  border-radius: 22px;
+  overflow: hidden;
+  box-shadow: 0 18px 40px rgba(0,0,0,.28);
+}
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktHeroMapSurface {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(23,23,21,.06), transparent 30%),
+    linear-gradient(90deg, #cfd8c8 0 42%, #9eb8c6 42% 100%);
+  background-size: 100% 100%, 100% 100%;
+}
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktHeroMapSurface::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,.22) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.22) 1px, transparent 1px);
+  background-size: 28px 28px;
+  opacity: .55;
+}
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktHeroMapSurface::after {
+  content: "";
+  position: absolute;
+  left: 44%;
+  top: -10%;
+  width: 58%;
+  height: 120%;
+  background: #8eacc0;
+  border-radius: 40% 20% 30% 50%;
+  opacity: .9;
+}
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktMapPin {
+  position: absolute;
+  z-index: 2;
+  transform: translate(-50%, -100%);
+  border: 0;
+  padding: 0;
+  background: none;
+}
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktMapPin span {
+  display: block;
+  padding: 6px 8px;
+  border-radius: 8px;
+  background: #171715;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  white-space: nowrap;
+  box-shadow: 0 8px 18px rgba(23,23,21,.28);
+}
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktMapPin::after {
+  content: "";
+  display: block;
+  width: 10px;
+  height: 10px;
+  margin: 2px auto 0;
+  background: #171715;
+  clip-path: polygon(50% 100%, 0 0, 100% 0);
+}
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktMapClose {
+  position: absolute;
+  z-index: 3;
+  left: 50%;
+  bottom: 12px;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 34px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(255,255,255,.92);
+  color: #171715;
+  font-size: 12px;
+  font-weight: 600;
+}
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktHero.is-map .mktSearch {
+  grid-template-columns: max-content max-content auto;
+  grid-template-areas: "deal beds go";
+  gap: 6px;
+  padding: 6px;
+  border-radius: 16px;
+}
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktHero.is-map .mktSearch > .mktField,
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktHero.is-map .mktSearch > .mktPick:nth-of-type(3) { display: none; }
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktHero.is-map .mktSearch .mktField,
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktHero.is-map .mktSearch .mktPick {
+  height: 38px;
+  padding: 0 10px;
+}
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktHero.is-map .mktSearch .mktPickBtn,
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktHero.is-map .mktSearch .mktField input {
+  height: 38px;
+  font-size: 13px;
+}
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktHero.is-map .mktSearchBtn {
+  height: 38px;
+  min-height: 38px;
+  margin: 0;
+  width: auto;
+  padding: 0 12px;
+  font-size: 13px;
+  border-radius: 12px;
+}
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktHero.is-map .mktSearchBtn span { display: none; }
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktHero.is-map .mktPickList button { height: 38px; font-size: 13px; }
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktHero.is-map + .mktTypeRow { display: none; }
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktTypeRow {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 10px;
+  margin-top: 14px;
+  min-width: 0;
+  max-width: 100%;
+}
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktTypeLabel {
+  padding: 0 2px;
+  font-size: 11px;
+  letter-spacing: .16em;
+}
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktTypeTrack {
+  display: flex;
+  flex: 0 1 auto;
+  flex-wrap: nowrap;
+  gap: 8px;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  padding: 2px 2px 10px;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktTypeTrack::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktTypeTrack button {
+  flex: 0 0 auto;
+  width: auto;
+  min-width: max-content;
+  height: 44px;
+  min-height: 44px;
+  flex-direction: row;
+  gap: 8px;
+  padding: 0 14px 0 12px;
+  border-radius: 999px;
+  background: #fff;
+  color: #171715;
+  border: 1px solid var(--mkt-line);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 1;
+  text-align: left;
+  scroll-snap-align: start;
+  box-shadow: 0 6px 16px rgba(23, 23, 21, .05);
+}
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktTypeTrack button span {
+  display: inline;
+  overflow: visible;
+  text-overflow: clip;
+  white-space: nowrap;
+}
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktTypeTrack button svg {
+  width: 16px;
+  height: 16px;
+  color: #8a704e;
+}
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktTypeTrack button:hover {
+  background: #f4f0ea;
+  color: #171715;
+}
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktTypeTrack button.active {
+  background: #171715;
+  border-color: #171715;
+  color: #fff;
+}
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktTypeTrack button.active svg {
+  color: #c4b08a;
+}
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktTypeTrack button.active:hover {
+  background: #171715;
+  color: #fff;
+}
 html[data-device="ipad"] .mktTypeRow { flex-direction: column; align-items: stretch; gap: 8px; }
-html[data-device="iphone"] .mktTypeTrack button,
 html[data-device="ipad"] .mktTypeTrack button { flex: 1 1 calc(50% - 4px); }
-html[data-device="iphone"] .mktFeaturedGrid,
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktFeaturedGrid,
 html[data-device="ipad"] .mktFeaturedGrid,
-html[data-device="iphone"] .mktAgents,
 html[data-device="ipad"] .mktAgents,
-html[data-device="iphone"] .mktCityGrid,
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktCityGrid,
 html[data-device="ipad"] .mktCityGrid,
-html[data-device="iphone"] .mktSplit,
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktSplit,
 html[data-device="ipad"] .mktSplit,
-html[data-device="iphone"] .mktFooterTop,
 html[data-device="ipad"] .mktFooterTop,
-html[data-device="iphone"] .mktStats,
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktStats,
 html[data-device="ipad"] .mktStats,
-html[data-device="iphone"] .mktNewsForm,
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktNewsForm,
 html[data-device="ipad"] .mktNewsForm,
-html[data-device="iphone"] .mktAppGrid,
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktAppGrid,
 html[data-device="ipad"] .mktAppGrid,
-html[data-device="iphone"] .mktNewsInner,
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktNewsInner,
 html[data-device="ipad"] .mktNewsInner {
   grid-template-columns: 1fr;
 }
-html[data-device="iphone"] .mktSectionHead,
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktSectionHead,
 html[data-device="ipad"] .mktSectionHead,
-html[data-device="iphone"] .mktFooterBottom,
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktFooterBottom,
 html[data-device="ipad"] .mktFooterBottom,
-html[data-device="iphone"] .mktPhones,
 html[data-device="ipad"] .mktPhones { flex-direction: column; align-items: flex-start; }
-html[data-device="iphone"] .mktPlant,
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktPhones,
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktAppFeatures { display: none; }
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktStores {
+  width: 100%;
+  margin-top: 22px;
+  gap: 10px;
+}
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktApp .mktStore {
+  flex: 1 1 calc(50% - 5px);
+  justify-content: center;
+  border-radius: 8px;
+  min-height: 52px;
+  padding: 8px 12px 8px 10px;
+}
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktApp .mktStore span {
+  align-items: center;
+  text-align: center;
+}
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktFooterTop {
+  grid-template-columns: 1fr 1fr;
+  gap: 20px 16px;
+}
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktFooterBrand {
+  grid-column: 1 / -1;
+}
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktPlant,
 html[data-device="ipad"] .mktPlant { display: none; }
 
-html[data-device="iphone"] .pac-container {
-  z-index: 10000;
-  margin-top: 6px;
-  background: #171715;
-  border: 1px solid rgba(255, 255, 255, .18);
-  border-radius: 14px;
-  box-shadow: 0 16px 40px rgba(0, 0, 0, .55);
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktAgentsViewport {
   overflow: hidden;
-  font-family: inherit;
+  min-width: 0;
+  max-width: 100%;
 }
-html[data-device="iphone"] .pac-item {
-  height: 44px;
-  line-height: 44px;
-  padding: 0 14px;
-  color: #fff;
-  border-top: 1px solid rgba(255, 255, 255, .1);
-  cursor: pointer;
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktAgents {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  gap: 10px;
+  width: max-content;
+  animation: knAgentMarquee 32s linear infinite;
 }
-html[data-device="iphone"] .pac-item:first-child { border-top: 0; }
-html[data-device="iphone"] .pac-item:hover,
-html[data-device="iphone"] .pac-item-selected {
-  background: rgba(255, 255, 255, .14);
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktAgents:hover,
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktAgents:focus-within {
+  animation-play-state: paused;
 }
-html[data-device="iphone"] .pac-item-query,
-html[data-device="iphone"] .pac-matched {
-  color: #fff;
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktAgentsDup {
+  display: contents;
+}
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktAgentCard {
+  flex: 0 0 148px;
+  width: 148px;
+  padding: 14px 10px 12px;
+  background: #fff;
+  border: 1px solid var(--mkt-line);
+  border-radius: 18px;
+  box-shadow: 0 8px 20px rgba(23, 23, 21, .05);
+}
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktAgentCard img {
+  width: 64px;
+  height: 64px;
+}
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktAgentCard strong {
+  font-size: 13px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktAgentCard button {
+  height: 32px;
+  border-radius: 999px;
+}
+@keyframes knAgentMarquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  :is(html[data-device="iphone"], html[data-bp="phone"]) .mktAgents {
+    animation: none;
+    overflow-x: auto;
+    width: auto;
+    max-width: 100%;
+    scrollbar-width: none;
+  }
 }

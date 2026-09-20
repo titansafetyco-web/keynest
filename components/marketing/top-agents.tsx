@@ -19,21 +19,40 @@ export default function TopAgents() {
           </div>
           <Link href="/agents" className="mktTextLink">View all</Link>
         </div>
-        <div className="mktAgents">
-          {featured.map(a => (
-            <div className="mktAgentCard" key={a.handle}>
-              <img src={a.image} alt={a.name} />
-              <strong>{a.name}</strong>
-              <span>{a.followers} followers</span>
-              <button
-                type="button"
-                className={following[a.handle] ? "following" : ""}
-                onClick={() => setFollowing(f => ({ ...f, [a.handle]: !f[a.handle] }))}
-              >
-                {following[a.handle] ? "Following" : "Follow"}
-              </button>
+        <div className="mktAgentsViewport">
+          <div className="mktAgents">
+            {featured.map(a => (
+              <article className="mktAgentCard" key={a.handle}>
+                <img src={a.image} alt={a.name} />
+                <strong>{a.name}</strong>
+                <span>{a.followers} followers</span>
+                <button
+                  type="button"
+                  className={following[a.handle] ? "following" : ""}
+                  onClick={() => setFollowing(f => ({ ...f, [a.handle]: !f[a.handle] }))}
+                >
+                  {following[a.handle] ? "Following" : "Follow"}
+                </button>
+              </article>
+            ))}
+            <div className="mktAgentsDup" aria-hidden="true">
+              {featured.map(a => (
+                <article className="mktAgentCard" key={`${a.handle}-dup`}>
+                  <img src={a.image} alt="" />
+                  <strong>{a.name}</strong>
+                  <span>{a.followers} followers</span>
+                  <button
+                    type="button"
+                    tabIndex={-1}
+                    className={following[a.handle] ? "following" : ""}
+                    onClick={() => setFollowing(f => ({ ...f, [a.handle]: !f[a.handle] }))}
+                  >
+                    {following[a.handle] ? "Following" : "Follow"}
+                  </button>
+                </article>
+              ))}
             </div>
-          ))}
+          </div>
         </div>
       </div>
     </section>

@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import {
   Building2,
   ChevronDown,
+  ChevronUp,
   Factory,
   Gem,
   Home,
@@ -14,7 +15,7 @@ import {
   Building,
   Trees
 } from "lucide-react";
-import PlacesLocation from "@/components/marketing/places-location";
+import { featuredListings } from "@/lib/mock-data";
 
 const types = [
   { id: "House", icon: Home },
@@ -31,6 +32,12 @@ const dealOptions = [
   { value: "rent", label: "Rent" }
 ];
 
+const pinLayout: Record<string, { x: number; y: number }> = {
+  "jc-skyline-estate": { x: 32, y: 36 },
+  "hoboken-townhome": { x: 68, y: 26 },
+  "nyc-penthouse": { x: 48, y: 52 },
+  "jersey-condo": { x: 28, y: 68 }
+};
 const bedOptions = [
   { value: "", label: "Bedrooms" },
   { value: "1", label: "1+" },
@@ -45,8 +52,7 @@ function FieldPick({
   options,
   open,
   onToggle,
-  onChange,
-  onClose
+  onChange
 }: {
   label: string;
   value: string;
@@ -54,12 +60,11 @@ function FieldPick({
   open: boolean;
   onToggle: () => void;
   onChange: (value: string) => void;
-  onClose: () => void;
 }) {
   const selected = options.find(option => option.value === value);
 
   return (
-    <div className="mktPick" onMouseLeave={onClose}>
+    <div className="mktPick">
       <button
         type="button"
         className="mktPickBtn"
@@ -98,13 +103,17 @@ export default function HeroDiscover() {
   const [beds, setBeds] = useState("");
   const [type, setType] = useState("");
   const [openMenu, setOpenMenu] = useState<"deal" | "beds" | "type" | null>(null);
+  const [mapOpen, setMapOpen] = useState(false);
 
   useEffect(() => {
-    function onDoc(e: MouseEvent) {
-      if (!formRef.current?.contains(e.target as Node)) setOpenMenu(null);
+    function onDoc(e: PointerEvent) {
+      const node = e.target;
+      if (!(node instanceof Node)) return;
+      if (formRef.current?.contains(node)) return;
+      setOpenMenu(null);
     }
-    document.addEventListener("mousedown", onDoc);
-    return () => document.removeEventListener("mousedown", onDoc);
+    document.addEventListener("pointerdown", onDoc);
+    return () => document.removeEventListener("pointerdown", onDoc);
   }, []);
 
   function onSubmit(e: FormEvent) {
@@ -119,7 +128,7 @@ export default function HeroDiscover() {
 
   return (
     <>
-      <section className="mktHero">
+      <section className={`mktHero${mapOpen ? " is-map" : ""}`}>
         <img
           className="mktHeroBg"
           src="/images/poolset.webp"
@@ -140,7 +149,6 @@ export default function HeroDiscover() {
                 options={dealOptions}
                 open={openMenu === "deal"}
                 onToggle={() => setOpenMenu(openMenu === "deal" ? null : "deal")}
-                onClose={() => setOpenMenu(null)}
                 onChange={value => {
                   setDeal(value);
                   setOpenMenu(null);
@@ -148,9 +156,12 @@ export default function HeroDiscover() {
               />
               <label className="mktField">
                 <MapPin size={15} />
-                <PlacesLocation
+                <input
                   value={location}
-                  onChange={setLocation}
+                  onChange={e => setLocation(e.target.value)}
+                  placeholder="City or neighborhood"
+                  aria-label="Location"
+                  autoComplete="off"
                   onFocus={() => setOpenMenu(null)}
                 />
               </label>
@@ -160,7 +171,6 @@ export default function HeroDiscover() {
                 options={bedOptions}
                 open={openMenu === "beds"}
                 onToggle={() => setOpenMenu(openMenu === "beds" ? null : "beds")}
-                onClose={() => setOpenMenu(null)}
                 onChange={value => {
                   setBeds(value);
                   setOpenMenu(null);
@@ -175,17 +185,56 @@ export default function HeroDiscover() {
                 ]}
                 open={openMenu === "type"}
                 onToggle={() => setOpenMenu(openMenu === "type" ? null : "type")}
-                onClose={() => setOpenMenu(null)}
                 onChange={value => {
                   setType(value);
                   setOpenMenu(null);
                 }}
               />
               <button className="mktSearchBtn" type="submit">
-                <Search size={14} /> Search
+                <Search size={14} /> <span>Search</span>
               </button>
             </form>
           </div>
+        </div>
+
+        <button
+          type="button"
+          className="mktViewMap"
+          onClick={() => {
+            setOpenMenu(null);
+            setMapOpen(true);
+          }}
+        >
+          <span>View map</span>
+          <i className="mktViewMapArrow" aria-hidden="true">
+            <ChevronDown size={18} />
+          </i>
+        </button>
+
+        <div className="mktHeroMap" aria-hidden={!mapOpen}>
+          <div className="mktHeroMapSurface" />
+          {featuredListings.map(listing => {
+            const pin = pinLayout[listing.id];
+            if (!pin) return null;
+            return (
+              <button
+                key={listing.id}
+                type="button"
+                className="mktMapPin"
+                style={{ left: `${pin.x}%`, top: `${pin.y}%` }}
+                onClick={() => router.push(`/property/${listing.id}`)}
+              >
+                <span>{listing.price}</span>
+              </button>
+            );
+          })}
+          <button
+            type="button"
+            className="mktMapClose"
+            onClick={() => setMapOpen(false)}
+          >
+            <ChevronUp size={16} /> Close map
+          </button>
         </div>
       </section>
 

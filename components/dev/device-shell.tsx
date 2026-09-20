@@ -101,7 +101,10 @@ export default function DeviceShell({ children }: { children: React.ReactNode })
         >
           <div
             className="devBezel"
-            style={scale < 0.999 ? { zoom: scale } : undefined}
+            style={{
+              transform: `scale(${scale})`,
+              transformOrigin: "top left"
+            }}
           >
             <StatusBar />
             <div
