@@ -83,7 +83,7 @@ function paintAppleLook(map: MapLibreMap) {
   const setPaint = (id: string, prop: string, value: unknown) => {
     if (!map.getLayer(id)) return;
     try {
-      map.setPaintProperty(id, prop, value);
+      map.setPaintProperty(id, prop as never, value as never);
     } catch {
       /* layer may not support the paint property */
     }

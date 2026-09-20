@@ -113,8 +113,9 @@ export default function HeroDiscover() {
   }, []);
 
   useEffect(() => {
-    const el = typeTrackRef.current;
-    if (!el) return;
+    const node = typeTrackRef.current;
+    if (!node) return;
+    const track: HTMLDivElement = node;
     let active = false;
     let moved = false;
     let startX = 0;
@@ -125,19 +126,19 @@ export default function HeroDiscover() {
       active = true;
       moved = false;
       startX = e.clientX;
-      startScroll = el.scrollLeft;
-      el.setPointerCapture(e.pointerId);
+      startScroll = track.scrollLeft;
+      track.setPointerCapture(e.pointerId);
     }
     function onMove(e: PointerEvent) {
       if (!active) return;
       const dx = e.clientX - startX;
       if (Math.abs(dx) > 6) moved = true;
-      if (moved) el.scrollLeft = startScroll - dx;
+      if (moved) track.scrollLeft = startScroll - dx;
     }
     function onUp(e: PointerEvent) {
       if (!active) return;
       active = false;
-      if (el.hasPointerCapture(e.pointerId)) el.releasePointerCapture(e.pointerId);
+      if (track.hasPointerCapture(e.pointerId)) track.releasePointerCapture(e.pointerId);
     }
     function onClick(e: MouseEvent) {
       if (!moved) return;
@@ -146,17 +147,17 @@ export default function HeroDiscover() {
       moved = false;
     }
 
-    el.addEventListener("pointerdown", onDown);
-    el.addEventListener("pointermove", onMove);
-    el.addEventListener("pointerup", onUp);
-    el.addEventListener("pointercancel", onUp);
-    el.addEventListener("click", onClick, true);
+    track.addEventListener("pointerdown", onDown);
+    track.addEventListener("pointermove", onMove);
+    track.addEventListener("pointerup", onUp);
+    track.addEventListener("pointercancel", onUp);
+    track.addEventListener("click", onClick, true);
     return () => {
-      el.removeEventListener("pointerdown", onDown);
-      el.removeEventListener("pointermove", onMove);
-      el.removeEventListener("pointerup", onUp);
-      el.removeEventListener("pointercancel", onUp);
-      el.removeEventListener("click", onClick, true);
+      track.removeEventListener("pointerdown", onDown);
+      track.removeEventListener("pointermove", onMove);
+      track.removeEventListener("pointerup", onUp);
+      track.removeEventListener("pointercancel", onUp);
+      track.removeEventListener("click", onClick, true);
     };
   }, []);
 
