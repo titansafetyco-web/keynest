@@ -31,7 +31,7 @@ export default function StoriesRail() {
         <span className="knStoryAvatar">
           <button
             type="button"
-            className={`knStoryRing${yours.length && !social.seenStories[social.viewer.id] ? "" : " is-seen"}`}
+            className={`knStoryRing${yours.length ? " has-story" : " is-seen"}`}
             aria-label="Your story"
             onClick={() => yours.length && social.openStory(social.viewer.id)}
           >

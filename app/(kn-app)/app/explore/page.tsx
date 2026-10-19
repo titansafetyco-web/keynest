@@ -47,9 +47,21 @@ export default function AppExplorePage() {
       {filtered.length === 0 ? <p className="knEmpty">No listings match.</p> : null}
       <div className="knGrid">
         {filtered.map(post => (
-          <button type="button" key={post.id} onClick={() => setOpenId(post.id)} aria-label={post.address}>
-            <img src={post.image} alt="" />
-          </button>
+          <div className="knGridItem" key={post.id}>
+            <button type="button" onClick={() => setOpenId(post.id)} aria-label={post.address}>
+              <img src={post.image} alt="" />
+            </button>
+            {post.agentId === social.viewer.id ? (
+              <button
+                type="button"
+                className="knGridDelete"
+                aria-label="Delete post"
+                onClick={() => social.removePost(post.id)}
+              >
+                Delete
+              </button>
+            ) : null}
+          </div>
         ))}
       </div>
     </>

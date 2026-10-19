@@ -48,6 +48,7 @@ type Social = {
   markStorySeen: (agentId: string) => void;
   ownStories: KnStorySlide[];
   addOwnStories: (images: string[]) => void;
+  removeStory: (id: string) => void;
   storyQueue: KnAgent[];
   slidesFor: (agentId: string) => KnStorySlide[];
   commentPostId: string | null;
@@ -175,9 +176,17 @@ export function SocialProvider({ children }: { children: ReactNode }) {
     setOwnStories(cur => [...next, ...cur]);
     setSeenStories(cur => ({ ...cur, [viewer.id]: false }));
   }, [viewer.id]);
+  const removeStory = useCallback((id: string) => {
+    setOwnStories(cur => cur.some(item => item.id === id) ? cur.filter(item => item.id !== id) : cur);
+    setPosts(cur => {
+      if (!cur.some(post => post.id === id)) return cur;
+      setHiddenPosts(hidden => ({ ...hidden, [id]: true }));
+      void deleteKeynestPost(id).catch(() => {});
+      return cur.filter(post => post.id !== id);
+    });
+  }, []);
   const slidesFor = useCallback((agentId: string): KnStorySlide[] => {
-    if (agentId === viewer.id) return ownStories;
-    return postsByAgent(agentId).map(post => ({
+    const fromPosts = postsByAgent(agentId).map(post => ({
       id: post.id,
       image: post.image,
       price: post.price,
@@ -185,12 +194,14 @@ export function SocialProvider({ children }: { children: ReactNode }) {
       city: post.city,
       time: post.time
     }));
+    if (agentId === viewer.id) return [...ownStories, ...fromPosts];
+    return fromPosts;
   }, [ownStories, postsByAgent, viewer.id]);
   const storyQueue = useMemo(() => {
-    const yours = ownStories.length ? [viewer] : [];
+    const yours = slidesFor(viewer.id).length ? [viewer] : [];
     const rest = agents.filter(agent => slidesFor(agent.id).length > 0);
     return [...yours, ...rest];
-  }, [ownStories.length, slidesFor, viewer, agents]);
+  }, [slidesFor, viewer, agents]);
   const openStory = useCallback((agentId: string) => setStoryAgentId(agentId), []);
   const closeStory = useCallback(() => setStoryAgentId(null), []);
   const markStorySeen = useCallback((agentId: string) => {
@@ -207,11 +218,11 @@ export function SocialProvider({ children }: { children: ReactNode }) {
     viewer, agents, agentById, updateAgent,
     allPosts, postsByAgent, addPost, removePost, removePostImage,
     composeOpen, setComposeOpen, storyAgentId, openStory, closeStory, seenStories, markStorySeen,
-    ownStories, addOwnStories, storyQueue, slidesFor,
+    ownStories, addOwnStories, removeStory, storyQueue, slidesFor,
     commentPostId, setCommentPostId,
     mapPostId, setMapPostId,
     activityUnread, markActivityRead, hasUnreadActivity
-  }), [liked, saved, followed, toggleLike, toggleSave, toggleFollow, commentsFor, addComment, likeCount, viewer, agents, agentById, updateAgent, allPosts, postsByAgent, addPost, removePost, removePostImage, composeOpen, storyAgentId, openStory, closeStory, seenStories, markStorySeen, ownStories, addOwnStories, storyQueue, slidesFor, commentPostId, mapPostId, activityUnread, markActivityRead, hasUnreadActivity]);
+  }), [liked, saved, followed, toggleLike, toggleSave, toggleFollow, commentsFor, addComment, likeCount, viewer, agents, agentById, updateAgent, allPosts, postsByAgent, addPost, removePost, removePostImage, composeOpen, storyAgentId, openStory, closeStory, seenStories, markStorySeen, ownStories, addOwnStories, removeStory, storyQueue, slidesFor, commentPostId, mapPostId, activityUnread, markActivityRead, hasUnreadActivity]);
 
   return <SocialContext.Provider value={value}>{children}</SocialContext.Provider>;
 }

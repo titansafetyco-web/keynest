@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { ChevronLeft, ChevronRight, X } from "lucide-react";
+import { ChevronLeft, ChevronRight, Trash2, X } from "lucide-react";
 import { useSocial } from "./social-context";
 
 const DURATION = 5000;
@@ -92,6 +92,18 @@ export default function StoryViewer() {
   const post = slides[slide];
   if (!post) return null;
   const owner = social.agentById(agent.id);
+  const yours = agent.id === social.viewer.id;
+
+  function deleteCurrent() {
+    social.removeStory(post.id);
+    if (slides.length <= 1) {
+      close();
+      return;
+    }
+    setProgress(0);
+    progressRef.current = 0;
+    if (slide >= slides.length - 1) setSlide(slide - 1);
+  }
 
   function onDown() {
     downAt.current = Date.now();
@@ -127,6 +139,11 @@ export default function StoryViewer() {
           <strong>{owner.name}</strong>
           <div className="knPostTime" style={{ color: "rgba(255,255,255,.8)" }}>{post.time}</div>
         </div>
+        {yours ? (
+          <button type="button" className="knStoryDelete" aria-label="Delete story" onClick={deleteCurrent}>
+            <Trash2 size={16} />
+          </button>
+        ) : null}
         <button type="button" className="knStoryClose" aria-label="Close story" onClick={close}>
           <X size={18} />
         </button>

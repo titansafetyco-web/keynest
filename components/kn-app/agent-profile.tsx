@@ -245,9 +245,21 @@ export default function AgentProfile({ agent, isYou }: { agent: KnAgent; isYou?:
       {posts.length === 0 ? <p className="knEmpty">No listings yet.</p> : (
         <div className="knGrid">
           {posts.map(post => (
-            <button type="button" key={post.id} onClick={() => setOpenId(post.id)} aria-label={post.address}>
-              <img src={post.image} alt="" />
-            </button>
+            <div className="knGridItem" key={post.id}>
+              <button type="button" onClick={() => setOpenId(post.id)} aria-label={post.address}>
+                <img src={post.image} alt="" />
+              </button>
+              {isYou ? (
+                <button
+                  type="button"
+                  className="knGridDelete"
+                  aria-label="Delete post"
+                  onClick={() => social.removePost(post.id)}
+                >
+                  Delete
+                </button>
+              ) : null}
+            </div>
           ))}
         </div>
       )}

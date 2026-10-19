@@ -1,8 +1,8 @@
 const leads = [
-  ["Olivia Martin","88 Riverfront Ave","Showing request","New","Creator Reel"],
-  ["Ethan Cole","214 Kent Avenue","Message","Contacted","KeyNest Boost"],
-  ["Liam Davis","57 Hudson Street","Saved + inquiry","Qualified","Organic feed"],
-  ["Sophia Grant","102 Bay Drive","Request info","Showing","Creator campaign"]
+  ["Olivia Martin","1 Greene St #601","Showing request","New","Creator Reel"],
+  ["Ethan Cole","184 Kent Ave #A602","Message","Contacted","KeyNest Boost"],
+  ["Liam Davis","1314 Hudson St #11","Saved + inquiry","Qualified","Organic feed"],
+  ["Sophia Grant","5701 N Bay Rd","Request info","Showing","Creator campaign"]
 ];
 
 export default function DashboardPage() {

@@ -97,8 +97,85 @@ html[data-device="ipad"] .mktMobileScrim { display: block; }
     overflow: hidden;
   }
 }
-:is(html[data-device="iphone"], html[data-bp="phone"]) .knPostPhoto {
+:is(html[data-device="iphone"], html[data-bp="phone"]) .knPostMedia {
+  overflow: hidden;
   aspect-ratio: 1 / 1;
+  background: #111;
+}
+:is(html[data-device="iphone"], html[data-bp="phone"]) .knPostTrack {
+  height: 100%;
+  width: 100%;
+}
+:is(html[data-device="iphone"], html[data-bp="phone"]) .knPostPhoto {
+  aspect-ratio: auto;
+  width: 100%;
+  height: 100%;
+  min-width: 100%;
+  min-height: 100%;
+  object-fit: cover;
+  object-position: center;
+  background: #111;
+}
+:is(html[data-device="iphone"], html[data-bp="phone"]) .knStoryShow {
+  overflow: hidden;
+}
+:is(html[data-device="iphone"], html[data-bp="phone"]) .knStoryPhoto {
+  object-fit: cover;
+  object-position: center;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+}
+:is(html[data-device="iphone"], html[data-bp="phone"]) .knStoryRing {
+  position: relative;
+  padding: 3px;
+  overflow: hidden;
+  background: #dbdbdb;
+}
+:is(html[data-device="iphone"], html[data-bp="phone"]) .knStoryRing.has-story,
+:is(html[data-device="iphone"], html[data-bp="phone"]) .knStory > .knStoryRing:not(.is-seen) {
+  background: #fff;
+}
+:is(html[data-device="iphone"], html[data-bp="phone"]) .knStoryRing.has-story::before,
+:is(html[data-device="iphone"], html[data-bp="phone"]) .knStory > .knStoryRing:not(.is-seen)::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: conic-gradient(
+    from 0deg,
+    #ff006e 0deg,
+    #ff7a00 60deg,
+    #ffd000 120deg,
+    #00e5a0 180deg,
+    #00c2ff 240deg,
+    #6a5cff 300deg,
+    #ff006e 360deg
+  );
+  animation: knStoryRgb 2.2s linear infinite;
+  z-index: 0;
+}
+:is(html[data-device="iphone"], html[data-bp="phone"]) .knStoryRing img {
+  position: relative;
+  z-index: 1;
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+@keyframes knStoryRgb {
+  to { transform: rotate(1turn); }
+}
+:is(html[data-device="iphone"], html[data-bp="phone"]) .knStoryDelete,
+:is(html[data-device="iphone"], html[data-bp="phone"]) .knStoryClose {
+  width: 36px;
+  height: 36px;
+}
+:is(html[data-device="iphone"], html[data-bp="phone"]) .knGridDelete {
+  height: 28px;
+  padding: 0 10px;
+  font-size: 12px;
 }
 @media (max-width: 820px) {
   .knStoryShow {
@@ -107,14 +184,13 @@ html[data-device="ipad"] .mktMobileScrim { display: block; }
     width: 100%;
     height: 100svh;
     max-height: 100dvh;
+    overflow: hidden;
   }
   .knStoryPhoto {
-    object-fit: contain;
+    object-fit: cover;
     object-position: center;
     width: 100%;
     height: 100%;
-    max-width: 100%;
-    max-height: 100%;
   }
   .knStoryTicks {
     top: calc(8px + env(safe-area-inset-top));
@@ -1018,6 +1094,17 @@ html[data-device="ipad"] .mktPlant { display: none; }
 }
 :is(html[data-device="iphone"], html[data-bp="phone"]) .knComposeStateMenu button.is-on {
   background: #e4e4e4;
+}
+:is(html[data-device="iphone"], html[data-bp="phone"]) .knTagChip {
+  background: #e6e6e6;
+}
+:is(html[data-device="iphone"], html[data-bp="phone"]) .knComposeTagMenu {
+  background: #efefef;
+  border-color: #e6e6e6;
+}
+:is(html[data-device="iphone"], html[data-bp="phone"]) .knComposeTagMenu button {
+  background: #efefef;
+  border-bottom-color: #e6e6e6;
 }
 :is(html[data-device="iphone"], html[data-bp="phone"]) .knProfileBtn {
   background: #e8ddd0;

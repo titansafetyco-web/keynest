@@ -7,6 +7,22 @@ import { knMarketTitle, knPostPhotos, type KnPost } from "@/lib/mock-data";
 import { useSocial } from "./social-context";
 import VerifiedBadge from "./verified";
 
+function CaptionText({ text }: { text: string }) {
+  return (
+    <>
+      {text.split(/(@[A-Za-z0-9._]+)/g).map((chunk, i) =>
+        /^@[A-Za-z0-9._]+$/.test(chunk) ? (
+          <Link key={`${chunk}-${i}`} href={`/app/u/${chunk.slice(1)}`} className="knTagLink">
+            {chunk}
+          </Link>
+        ) : (
+          <span key={i}>{chunk}</span>
+        )
+      )}
+    </>
+  );
+}
+
 export default function FeedPost({ post }: { post: KnPost }) {
   const social = useSocial();
   const agent = social.agentById(post.agentId);
@@ -52,7 +68,10 @@ export default function FeedPost({ post }: { post: KnPost }) {
                 }}>
                   Delete photo
                 </button>
-                <button type="button" role="menuitem" onClick={() => social.removePost(post.id)}>
+                <button type="button" role="menuitem" onClick={() => {
+                  social.removePost(post.id);
+                  setMenu(false);
+                }}>
                   Delete post
                 </button>
               </div>
@@ -105,7 +124,7 @@ export default function FeedPost({ post }: { post: KnPost }) {
         <strong>{social.likeCount(post.id, post.likes).toLocaleString()} likes</strong>
         <p className="knPostMarket">{knMarketTitle(post)}</p>
         <p className="knPostCaption">
-          <b>{agent.handle}</b> {post.caption}
+          <b>{agent.handle}</b> <CaptionText text={post.caption} />
         </p>
         <button type="button" className="knPostFacts" onClick={() => social.setMapPostId(post.id)}>
           {post.price} · {post.address} · {post.beds} bd · {post.baths} ba · {post.sqft} sqft

@@ -6,7 +6,7 @@ export default function BoostPage() {
         <div className="card cardPad">
           <h3>Create campaign</h3>
           <div className="formGrid">
-            <div className="field"><label>Asset</label><select><option>88 Riverfront Ave · Reel</option><option>Agent profile</option><option>Collection</option></select></div>
+            <div className="field"><label>Asset</label><select><option>1 Greene St · Reel</option><option>Agent profile</option><option>Collection</option></select></div>
             <div className="field"><label>Objective</label><select><option>Property views</option><option>Saves</option><option>Profile visits</option><option>Messages</option></select></div>
             <div className="field"><label>Market</label><input defaultValue="Jersey City, NJ"/></div>
             <div className="field"><label>Duration</label><select><option>3 days</option><option>7 days</option><option>14 days</option></select></div>

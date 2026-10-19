@@ -2,7 +2,7 @@
 
 import { type DragEvent, type FormEvent, type PointerEvent, useEffect, useRef, useState } from "react";
 import { ImagePlus, X } from "lucide-react";
-import { type KnPost } from "@/lib/mock-data";
+import { type KnAgent, type KnPost } from "@/lib/mock-data";
 import { useSocial } from "./social-context";
 
 const US_STATES = [
@@ -21,6 +21,28 @@ const US_STATES = [
   ["WV", "West Virginia"], ["WI", "Wisconsin"], ["WY", "Wyoming"]
 ] as const;
 
+function handleOf(agent: KnAgent) {
+  return agent.handle.replace(/^@/, "");
+}
+
+function captionWithTags(caption: string, tagged: KnAgent[]) {
+  const mentions = tagged.map(agent => `@${handleOf(agent)}`);
+  const missing = mentions.filter(tag => !caption.toLowerCase().includes(tag.toLowerCase()));
+  return missing.length ? `${caption} ${missing.join(" ")}`.trim() : caption;
+}
+
+function tagMatches(agents: KnAgent[], viewerId: string, tagged: KnAgent[], query: string) {
+  const taken = new Set(tagged.map(agent => agent.id));
+  const q = query.trim().replace(/^@/, "").toLowerCase();
+  return agents
+    .filter(agent => agent.id !== viewerId && !taken.has(agent.id))
+    .filter(agent => {
+      if (!q) return true;
+      return agent.name.toLowerCase().includes(q) || handleOf(agent).toLowerCase().includes(q);
+    })
+    .slice(0, 8);
+}
+
 const empty = {
   caption: "",
   address: "",
@@ -38,10 +60,14 @@ export default function ComposeSheet() {
   const fileRef = useRef<HTMLInputElement>(null);
   const stateRef = useRef<HTMLDivElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
+  const tagRef = useRef<HTMLDivElement>(null);
   const [fields, setFields] = useState(empty);
   const [photos, setPhotos] = useState<string[]>([]);
   const [posted, setPosted] = useState(false);
   const [stateOpen, setStateOpen] = useState(false);
+  const [tagged, setTagged] = useState<KnAgent[]>([]);
+  const [tagQuery, setTagQuery] = useState("");
+  const [tagOpen, setTagOpen] = useState(false);
   const [dragFrom, setDragFrom] = useState<number | null>(null);
   const dragFromRef = useRef<number | null>(null);
   dragFromRef.current = dragFrom;
@@ -57,7 +83,10 @@ export default function ComposeSheet() {
   }, []);
 
   useEffect(() => {
-    if (!social.composeOpen) setStateOpen(false);
+    if (!social.composeOpen) {
+      setStateOpen(false);
+      setTagOpen(false);
+    }
   }, [social.composeOpen]);
 
   useEffect(() => {
@@ -70,6 +99,15 @@ export default function ComposeSheet() {
     selected?.scrollIntoView({ block: "nearest" });
     return () => document.removeEventListener("mousedown", onDoc);
   }, [stateOpen]);
+
+  useEffect(() => {
+    if (!tagOpen) return;
+    const onDoc = (e: MouseEvent) => {
+      if (!tagRef.current?.contains(e.target as Node)) setTagOpen(false);
+    };
+    document.addEventListener("mousedown", onDoc);
+    return () => document.removeEventListener("mousedown", onDoc);
+  }, [tagOpen]);
 
   if (!social.composeOpen) return null;
 
@@ -155,7 +193,7 @@ export default function ComposeSheet() {
       beds: Number(fields.beds) || 0,
       baths: Number(fields.baths) || 0,
       sqft: fields.sqft.trim() || "—",
-      caption: fields.caption.trim() || "Just listed.",
+      caption: captionWithTags(fields.caption.trim() || "Just listed.", tagged),
       likes: 0,
       time: "now",
       comments: []
@@ -166,6 +204,8 @@ export default function ComposeSheet() {
       setPosted(false);
       setFields(empty);
       setPhotos([]);
+      setTagged([]);
+      setTagQuery("");
       social.setComposeOpen(false);
     }, 700);
   }
@@ -173,12 +213,12 @@ export default function ComposeSheet() {
   return (
     <>
       <button type="button" className="knSheetScrim" aria-label="Close compose" onClick={() => social.setComposeOpen(false)} />
-      <div className="knSheet knSheetCompose" role="dialog" aria-label="New listing">
+      <div className={`knSheet knSheetCompose${tagOpen ? " is-tagging" : ""}`} role="dialog" aria-label="New listing">
         <div className="knSheetHead">
           New listing
           <button type="button" className="knAppIconBtn" onClick={() => social.setComposeOpen(false)}>Close</button>
         </div>
-        <form className="knCompose" onSubmit={onSubmit}>
+        <form className={`knCompose${tagOpen ? " is-tagging" : ""}`} onSubmit={onSubmit}>
           <input
             ref={fileRef}
             type="file"
@@ -326,6 +366,62 @@ export default function ComposeSheet() {
             placeholder="Write a caption…"
             aria-label="Caption"
           />
+          <div className="knComposeTags" ref={tagRef}>
+            {tagged.length ? (
+              <div className="knTagChips">
+                {tagged.map(agent => (
+                  <button
+                    key={agent.id}
+                    type="button"
+                    className="knTagChip"
+                    aria-label={`Remove tag ${agent.handle}`}
+                    onClick={() => setTagged(cur => cur.filter(item => item.id !== agent.id))}
+                  >
+                    <img src={agent.image} alt="" />
+                    <span>@{agent.handle.replace(/^@/, "")}</span>
+                    <X size={11} strokeWidth={3} />
+                  </button>
+                ))}
+              </div>
+            ) : null}
+            <input
+              value={tagQuery}
+              onChange={e => {
+                setTagQuery(e.target.value);
+                setTagOpen(true);
+              }}
+              onFocus={() => setTagOpen(true)}
+              onClick={() => setTagOpen(true)}
+              placeholder={tagged.length ? "Tag someone else…" : "Tag people"}
+              aria-label="Tag people"
+              autoComplete="off"
+            />
+            {tagOpen ? (
+              <div className="knComposeTagMenu" role="listbox" aria-label="People to tag">
+                {tagMatches(social.agents, social.viewer.id, tagged, tagQuery).map(agent => (
+                  <button
+                    key={agent.id}
+                    type="button"
+                    role="option"
+                    onClick={() => {
+                      setTagged(cur => cur.some(item => item.id === agent.id) ? cur : [...cur, agent]);
+                      setTagQuery("");
+                      setTagOpen(true);
+                    }}
+                  >
+                    <img src={agent.image} alt="" />
+                    <span>
+                      <b>{agent.name}</b>
+                      <em>@{handleOf(agent)}</em>
+                    </span>
+                  </button>
+                ))}
+                {tagMatches(social.agents, social.viewer.id, tagged, tagQuery).length === 0 ? (
+                  <p className="knComposeTagEmpty">No people to tag</p>
+                ) : null}
+              </div>
+            ) : null}
+          </div>
           <button type="submit" disabled={!photos.length}>{posted ? "Shared" : "Share"}</button>
         </form>
       </div>
