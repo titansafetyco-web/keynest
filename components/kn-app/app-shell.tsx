@@ -34,7 +34,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
             {pathname.startsWith("/app/activity") ? (
               <h1 className="knAppTitle">Activity</h1>
             ) : (
-              <Logo href="/app" />
+              <Logo href="/" />
             )}
             <div className="knAppTopActions">
               <Link

@@ -77,19 +77,18 @@
 }
 .knAppMain {
   flex: 1 1 auto;
+  min-height: 0;
   overflow: auto;
-  padding-bottom: 64px;
   -webkit-overflow-scrolling: touch;
 }
 .knAppTabs {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  position: relative;
   z-index: 20;
+  flex: 0 0 auto;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  height: 52px;
+  height: calc(52px + env(safe-area-inset-bottom, 0px));
+  padding-bottom: env(safe-area-inset-bottom, 0px);
   background: #fff;
   border-top: 1px solid #efefef;
 }
@@ -111,14 +110,34 @@
 }
 .knAppTab.is-on .knAppTabAvatar { border-color: #111; }
 
+.knStoriesWrap {
+  position: relative;
+}
 .knStories {
   display: flex;
   gap: 14px;
-  padding: 12px 12px 10px;
+  padding: 12px 36px 10px;
   overflow-x: auto;
   border-bottom: 1px solid #efefef;
   scrollbar-width: none;
 }
+.knStoriesArrow {
+  position: absolute;
+  top: 50%;
+  z-index: 2;
+  width: 28px;
+  height: 28px;
+  margin-top: -14px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  background: #fff;
+  color: #111;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, .18);
+}
+.knStoriesArrow.is-left { left: 6px; }
+.knStoriesArrow.is-right { right: 6px; }
 .knStories::-webkit-scrollbar { display: none; }
 .knStory {
   flex: 0 0 auto;
