@@ -1,7 +1,7 @@
 import "./globals.css";
 import "./device-shell.css";
 import "./device-ui.css";
-import type { Metadata } from "next";
+import type { Viewport } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 import { Suspense } from "react";
 import DeviceAttr from "@/components/dev/device-attr";
@@ -16,6 +16,13 @@ const playfair = Playfair_Display({
   subsets: ["latin"],
   variable: "--font-playfair"
 });
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  viewportFit: "cover"
+};
 
 const setPhoneBreakpoint = `
 (function () {
