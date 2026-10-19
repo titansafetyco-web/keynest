@@ -35,6 +35,7 @@ export default function SiteHeader() {
         </nav>
         <div className="mktHeaderActions">
           <Link href="/login" className="mktTextBtn">Sign in</Link>
+          <Link href="/app" className="mktBtn mktOpenApp">Open App</Link>
           <Link href="/signup" className="mktBtn">Get Started</Link>
         </div>
         <button
@@ -73,6 +74,9 @@ export default function SiteHeader() {
               </Link>
             ))}
             <div className="mktMobileNavActions">
+              <Link href="/app" className="mktBtn mktOpenApp" onClick={() => setOpen(false)}>
+                Open App
+              </Link>
               <Link href="/login" className="mktTextBtn" onClick={() => setOpen(false)}>
                 Sign in
               </Link>

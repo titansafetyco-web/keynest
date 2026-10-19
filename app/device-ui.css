@@ -70,6 +70,24 @@ html[data-device="ipad"] .mktMobileScrim { display: block; }
   font-size: 16px;
   font-weight: 600;
 }
+:is(html[data-device="iphone"], html[data-bp="phone"]) .mktMobileNavActions .mktOpenApp {
+  background: #171715;
+  color: #fff;
+  letter-spacing: .02em;
+}
+:is(html[data-device="iphone"], html[data-bp="phone"]) .knAppTop {
+  height: 52px;
+}
+:is(html[data-device="iphone"], html[data-bp="phone"]) .knAppTabs {
+  height: 56px;
+  padding-bottom: 4px;
+}
+:is(html[data-device="iphone"], html[data-bp="phone"]) .knAppMain {
+  padding-bottom: 68px;
+}
+:is(html[data-device="iphone"], html[data-bp="phone"]) .knPostPhoto {
+  aspect-ratio: 1 / 1;
+}
 :is(html[data-device="iphone"], html[data-bp="phone"]) .mktHero,
 html[data-device="ipad"] .mktHero { height: auto; min-height: 520px; }
 :is(html[data-device="iphone"], html[data-bp="phone"]) .mkt,

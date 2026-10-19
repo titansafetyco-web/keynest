@@ -1,0 +1,667 @@
+.knAppRoot {
+  min-height: 100%;
+  background: #0f0f0e;
+}
+.knAppFrame {
+  position: relative;
+  width: min(390px, 100%);
+  min-height: 100dvh;
+  margin: 0 auto;
+  background: #fafafa;
+  color: #111;
+  font-family: var(--font-inter), Helvetica, Arial, sans-serif;
+  overflow: hidden;
+}
+.knAppShell {
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+  min-height: 100%;
+  background: #fff;
+}
+.knAppTop {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 48px;
+  padding: 0 12px 0 16px;
+  background: #fff;
+  border-bottom: 1px solid #efefef;
+}
+.knAppTop .mktLogo {
+  display: flex;
+  align-items: center;
+}
+.knAppTop .mktLogo img {
+  height: 28px;
+  width: auto;
+  display: block;
+}
+.knAppTopActions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.knAppTitle {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -.03em;
+}
+.knAppIconBtn {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: 0;
+  background: none;
+  color: #111;
+  border-radius: 999px;
+}
+.knAppIconBtn.is-on { color: #111; }
+.knBadge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ed4956;
+  box-shadow: 0 0 0 2px #fff;
+}
+.knAppMain {
+  flex: 1 1 auto;
+  overflow: auto;
+  padding-bottom: 64px;
+  -webkit-overflow-scrolling: touch;
+}
+.knAppTabs {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 20;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  height: 52px;
+  background: #fff;
+  border-top: 1px solid #efefef;
+}
+.knAppTab {
+  display: grid;
+  place-items: center;
+  color: #111;
+  background: none;
+  border: 0;
+  text-decoration: none;
+}
+.knAppTab.is-on { color: #111; }
+.knAppTabAvatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1.5px solid transparent;
+}
+.knAppTab.is-on .knAppTabAvatar { border-color: #111; }
+
+.knStories {
+  display: flex;
+  gap: 14px;
+  padding: 12px 12px 10px;
+  overflow-x: auto;
+  border-bottom: 1px solid #efefef;
+  scrollbar-width: none;
+}
+.knStories::-webkit-scrollbar { display: none; }
+.knStory {
+  flex: 0 0 auto;
+  width: 68px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  border: 0;
+  background: none;
+  padding: 0;
+  color: #111;
+  text-decoration: none;
+}
+.knStoryRing {
+  width: 62px;
+  height: 62px;
+  padding: 2px;
+  border-radius: 50%;
+  background: conic-gradient(from 200deg, #c4b08a, #8a704e, #e8d7b5, #c4b08a);
+}
+.knStoryRing.is-seen {
+  background: #dbdbdb;
+}
+.knStoryRing img,
+.knAvatar {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #fff;
+  display: block;
+}
+.knStory span {
+  max-width: 68px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 11px;
+}
+
+.knPost { background: #fff; }
+.knPostHead {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+}
+.knPostHead a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: inherit;
+  text-decoration: none;
+  min-width: 0;
+  flex: 1;
+}
+.knPostHead img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.knPostHead strong {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+}
+.knPostHead em {
+  display: block;
+  font-style: normal;
+  font-size: 11px;
+  color: #8e8e8e;
+}
+.knVerified {
+  display: inline-block;
+  width: 13px;
+  height: 13px;
+  margin-left: 4px;
+  color: #8a704e;
+  vertical-align: -1px;
+}
+.knPostPhoto {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  background: #eee;
+}
+.knPostActions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 6px 0;
+}
+.knPostActions .knAppIconBtn:last-child { margin-left: auto; }
+.knPostMeta { padding: 4px 14px 14px; }
+.knPostMeta strong { font-size: 14px; }
+.knPostCaption {
+  margin: 4px 0 0;
+  font-size: 14px;
+  line-height: 1.35;
+}
+.knPostCaption b { font-weight: 600; }
+.knPostFacts {
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: #8a704e;
+}
+.knPostTime {
+  display: block;
+  margin-top: 6px;
+  font-size: 11px;
+  color: #8e8e8e;
+  text-transform: uppercase;
+}
+.knCommentLink {
+  display: block;
+  margin-top: 4px;
+  border: 0;
+  background: none;
+  padding: 0;
+  color: #8e8e8e;
+  font-size: 13px;
+}
+
+.knSheetScrim {
+  position: absolute;
+  inset: 0;
+  z-index: 40;
+  background: rgba(0,0,0,.45);
+  border: 0;
+}
+.knSheet {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 41;
+  max-height: 72%;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border-radius: 16px 16px 0 0;
+  overflow: hidden;
+}
+.knSheetHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px;
+  border-bottom: 1px solid #efefef;
+  font-weight: 600;
+  font-size: 14px;
+}
+.knSheetList {
+  flex: 1;
+  overflow: auto;
+  padding: 8px 14px 12px;
+}
+.knCommentRow {
+  display: flex;
+  gap: 10px;
+  padding: 10px 0;
+  font-size: 13px;
+  line-height: 1.35;
+}
+.knCommentRow img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.knSheetForm {
+  display: flex;
+  gap: 8px;
+  padding: 10px 12px calc(10px + env(safe-area-inset-bottom));
+  border-top: 1px solid #efefef;
+}
+.knSheetForm input {
+  flex: 1;
+  height: 40px;
+  border: 1px solid #efefef;
+  border-radius: 20px;
+  padding: 0 14px;
+  font-size: 14px;
+}
+.knSheetForm button {
+  border: 0;
+  background: none;
+  color: #8a704e;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.knStoryShow {
+  position: absolute;
+  inset: 0;
+  z-index: 45;
+  background: #111;
+  color: #fff;
+}
+.knStoryPhoto {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.knStoryTicks {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  right: 8px;
+  z-index: 3;
+  display: flex;
+  gap: 3px;
+}
+.knStoryTick {
+  flex: 1;
+  height: 2px;
+  border-radius: 2px;
+  background: rgba(255,255,255,.35);
+  overflow: hidden;
+}
+.knStoryTick i {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: #fff;
+}
+.knStoryHits {
+  position: absolute;
+  inset: 52px 0 0;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 28% 72%;
+}
+.knStoryHits button {
+  border: 0;
+  background: transparent;
+  padding: 0;
+}
+.knStoryShowBar {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  top: 18px;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.knStoryShowBar img {
+  width: 32px;
+  height: 32px;
+  flex: none;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.knStoryShowCopy {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: 28px;
+  z-index: 3;
+  pointer-events: none;
+  text-shadow: 0 8px 24px rgba(0,0,0,.45);
+}
+.knStoryShowCopy strong { display: block; font-size: 22px; }
+.knStoryClose {
+  margin-left: auto;
+  width: 36px;
+  height: 36px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(0,0,0,.35);
+  color: #fff;
+}
+
+.knSearchWrap { padding: 10px 12px; }
+.knSearchWrap input {
+  width: 100%;
+  height: 36px;
+  border: 0;
+  border-radius: 10px;
+  background: #efefef;
+  padding: 0 12px;
+  font-size: 14px;
+}
+.knGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: #fff;
+}
+.knGrid button,
+.knGrid a {
+  display: block;
+  aspect-ratio: 1;
+  background: #eee;
+  border: 0;
+  padding: 0;
+}
+.knGrid img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.knProfileHead {
+  padding: 16px 16px 12px;
+}
+.knProfileRow {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+.knProfileRow > img {
+  width: 86px;
+  height: 86px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.knStats {
+  display: flex;
+  flex: 1;
+  justify-content: space-around;
+  text-align: center;
+}
+.knStats strong { display: block; font-size: 16px; }
+.knStats span { font-size: 12px; color: #8e8e8e; }
+.knProfileHead h1 { margin: 14px 0 0; font-size: 14px; }
+.knProfileHead p { margin: 4px 0 0; font-size: 13px; color: #262626; }
+.knFollow {
+  width: 100%;
+  margin-top: 14px;
+  height: 32px;
+  border: 0;
+  border-radius: 8px;
+  background: #8a704e;
+  color: #fff;
+  font-weight: 600;
+  font-size: 13px;
+}
+.knFollow.is-on {
+  background: #efefef;
+  color: #111;
+}
+.knFollowSm {
+  width: auto;
+  min-width: 84px;
+  margin-top: 0;
+  padding: 0 14px;
+  flex: 0 0 auto;
+}
+
+.knActivityLabel {
+  margin: 0;
+  padding: 14px 16px 6px;
+  font-size: 15px;
+  font-weight: 700;
+}
+.knActivityRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+}
+.knActivityRow.is-unread {
+  background: #faf8f4;
+}
+.knActivityMain {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  background: none;
+  padding: 0;
+  text-align: left;
+  color: inherit;
+}
+.knActivityMain img {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex: 0 0 auto;
+}
+.knActivityMain p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.35;
+}
+.knActivityMain b { font-weight: 600; }
+.knActivityMain time {
+  color: #8e8e8e;
+  font-size: 12px;
+}
+.knActivityThumb {
+  flex: 0 0 auto;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  background: #eee;
+  border-radius: 4px;
+  overflow: hidden;
+}
+.knActivityThumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.knInboxRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px solid #f4f4f4;
+}
+.knInboxRow img {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.knInboxRow strong { display: block; font-size: 14px; }
+.knInboxRow span { display: block; font-size: 13px; color: #8e8e8e; }
+.knUnread { width: 8px; height: 8px; border-radius: 50%; background: #8a704e; margin-left: auto; }
+
+.knThreadTop {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-bottom: 1px solid #efefef;
+  text-decoration: none;
+  color: inherit;
+}
+.knThreadTop img {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.knBubbles {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 14px 12px 24px;
+}
+.knBubble {
+  max-width: 78%;
+  padding: 10px 12px;
+  border-radius: 18px;
+  font-size: 14px;
+  line-height: 1.35;
+  background: #efefef;
+  align-self: flex-start;
+}
+.knBubble.is-me {
+  align-self: flex-end;
+  background: #8a704e;
+  color: #fff;
+}
+.knChip {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-top: 8px;
+  padding: 6px;
+  border-radius: 12px;
+  background: rgba(255,255,255,.18);
+  color: inherit;
+  text-decoration: none;
+}
+.knChip img {
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+.knChip small { display: block; font-size: 11px; opacity: .8; }
+
+.knCompose {
+  padding: 18px 16px;
+}
+.knCompose textarea {
+  width: 100%;
+  min-height: 120px;
+  border: 1px solid #efefef;
+  border-radius: 12px;
+  padding: 12px;
+  font: inherit;
+  font-size: 15px;
+  resize: none;
+}
+.knCompose button {
+  width: 100%;
+  margin-top: 12px;
+  height: 40px;
+  border: 0;
+  border-radius: 10px;
+  background: #8a704e;
+  color: #fff;
+  font-weight: 600;
+}
+
+.knEmpty {
+  padding: 40px 20px;
+  text-align: center;
+  color: #8e8e8e;
+  font-size: 14px;
+}
+
+.knHeart.on { color: #ed4956; fill: #ed4956; }
+.knSave.on { fill: #111; }
+
+html[data-device="iphone"] .knAppRoot,
+html[data-device="ipad"] .knAppRoot {
+  min-height: 100%;
+  height: 100%;
+  background: #fff;
+}
+html[data-device="iphone"] .knAppFrame,
+html[data-bp="phone"] .knAppFrame {
+  width: 100%;
+  max-width: none;
+  min-height: 100%;
+  height: 100%;
+}
+html[data-device="iphone"] .knAppShell,
+html[data-bp="phone"] .knAppShell {
+  height: 100%;
+}
+html[data-device="desktop"] .knAppRoot {
+  min-height: 100dvh;
+  padding: 24px 0;
+}
