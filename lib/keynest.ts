@@ -8,6 +8,7 @@ import {
   knDaysOnMarket,
   knPosts,
   knViewer,
+  listingCoords,
   properties,
   type CreatorCard,
   type FeaturedListing,
@@ -17,6 +18,14 @@ import {
   type KnRole,
   type MarketingProperty
 } from "@/lib/mock-data";
+
+export type ListingRecord = MarketingProperty & {
+  agentImage?: string;
+  images: string[];
+  daysOnMarket: number;
+  lat: number;
+  lng: number;
+};
 
 type ProfileRow = {
   id: string;
@@ -139,7 +148,17 @@ function listingPhotos(id: string, cover: string, stored?: string[] | null) {
   return [...new Set([cover, ...(stored ?? []), ...fromPosts].filter(Boolean))];
 }
 
-function mapProperty(listing: ListingRow, owner?: ProfileRow): MarketingProperty & { agentImage?: string; images: string[]; daysOnMarket: number } {
+function fromMockProperty(p: MarketingProperty): ListingRecord {
+  const coords = listingCoords(p.id, p.city);
+  return {
+    ...p,
+    ...coords,
+    images: listingPhotos(p.id, p.image),
+    daysOnMarket: daysOnMarketFor(p.id)
+  };
+}
+
+function mapProperty(listing: ListingRow, owner?: ProfileRow): ListingRecord {
   return {
     id: listing.id,
     price: listing.price_label,
@@ -233,15 +252,15 @@ export async function loadFeaturedListings(): Promise<FeaturedListing[]> {
   }
 }
 
-export async function loadMarketingProperties(): Promise<MarketingProperty[]> {
+export async function loadMarketingProperties(): Promise<ListingRecord[]> {
   try {
     const { profiles, listings } = await fetchTables();
     const owners = new Map(profiles.map(row => [row.id, row]));
     return listings.length
       ? listings.map(row => mapProperty(row, owners.get(row.owner_id)))
-      : properties;
+      : properties.map(fromMockProperty);
   } catch {
-    return properties;
+    return properties.map(fromMockProperty);
   }
 }
 
@@ -255,7 +274,7 @@ export async function loadCreators(): Promise<CreatorCard[]> {
   }
 }
 
-export async function loadListingById(id: string): Promise<(MarketingProperty & { agentImage?: string; images: string[]; daysOnMarket: number }) | undefined> {
+export async function loadListingById(id: string): Promise<ListingRecord | undefined> {
   const list = await loadMarketingProperties();
   const featured = await loadFeaturedListings();
   const listed = list.find(item => item.id === id);
