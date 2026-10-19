@@ -1,9 +1,12 @@
+"use client";
+
 import Link from "next/link";
+import { markPropSurface } from "@/lib/prop-nav";
 import { Heart, BedDouble, Bath, Maximize2 } from "lucide-react";
 
 export default function PropertyCard({ p }: { p:any }) {
   return (
-    <Link href={`/property/${p.id}`} className="card">
+    <Link href={`/property/${p.id}`} className="card" onClick={() => markPropSurface("web")}>
       <img className="propertyImage" src={p.image} alt={p.address}/>
       <div className="propertyMeta">
         <div className="row between">

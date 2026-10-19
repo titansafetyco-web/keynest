@@ -1,23 +1,24 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { knAgentById, knPosts } from "@/lib/mock-data";
 import FeedPost from "@/components/kn-app/feed-post";
+import { useSocial } from "@/components/kn-app/social-context";
 
 export default function AppExplorePage() {
+  const social = useSocial();
   const [q, setQ] = useState("");
   const [openId, setOpenId] = useState<string | null>(null);
   const filtered = useMemo(() => {
     const needle = q.trim().toLowerCase();
-    if (!needle) return knPosts;
-    return knPosts.filter(post => {
-      const agent = knAgentById(post.agentId);
+    if (!needle) return social.allPosts;
+    return social.allPosts.filter(post => {
+      const agent = social.agentById(post.agentId);
       return [post.address, post.city, post.price, post.caption, agent.name, agent.handle]
         .join(" ")
         .toLowerCase()
         .includes(needle);
     });
-  }, [q]);
+  }, [q, social.allPosts, social.agentById]);
   const open = filtered.find(p => p.id === openId);
 
   if (open) {

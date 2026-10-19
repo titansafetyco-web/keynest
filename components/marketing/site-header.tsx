@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 import Logo from "./logo";
+import { markPropSurface } from "@/lib/prop-nav";
 
 const links = [
   ["/", "Home"],
@@ -20,6 +21,11 @@ export default function SiteHeader() {
 
   useEffect(() => {
     setOpen(false);
+  }, [pathname]);
+
+  useEffect(() => {
+    if (pathname.startsWith("/property") || pathname.startsWith("/app")) return;
+    markPropSurface("web", `${pathname}${window.location.search}`);
   }, [pathname]);
 
   return (

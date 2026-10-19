@@ -41,6 +41,8 @@ export const properties = [
   }
 ];
 
+export type MarketingProperty = (typeof properties)[number];
+
 export const featuredListings = [
   {
     id: "jc-skyline-estate",
@@ -112,6 +114,8 @@ export const featuredListings = [
   }
 ];
 
+export type FeaturedListing = (typeof featuredListings)[number];
+
 export const communities = [
   {
     name: "Jersey City",
@@ -154,6 +158,8 @@ export const creators = [
   { name: "Olivia Park", handle: "@firsthomeguide", followers: "12.8K", focus: "First-time buyers", score: 89, image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=200&q=80" }
 ];
 
+export type CreatorCard = (typeof creators)[number];
+
 export const feedPosts = [
   {
     id: "p1",
@@ -173,12 +179,19 @@ export const feedPosts = [
   }
 ];
 
+export type KnRole = "Agent" | "Broker" | "Realtor" | "Spectator";
+
+export const knRoles: KnRole[] = ["Agent", "Broker", "Realtor", "Spectator"];
+
 export type KnAgent = {
   id: string;
   name: string;
   handle: string;
   bio: string;
   city: string;
+  website?: string;
+  role?: KnRole;
+  license?: string;
   followers: string;
   following: string;
   postCount: number;
@@ -200,6 +213,7 @@ export type KnPost = {
   agentId: string;
   listingId: string;
   image: string;
+  images?: string[];
   price: string;
   address: string;
   city: string;
@@ -211,6 +225,34 @@ export type KnPost = {
   time: string;
   comments: KnComment[];
 };
+
+export function knPostPhotos(post: KnPost) {
+  return post.images?.length ? post.images : [post.image];
+}
+
+export function knDaysOnMarket(post: KnPost) {
+  const stamp = post.time.trim().toLowerCase();
+  if (stamp === "now" || stamp.endsWith("h") || stamp.endsWith("m")) return 0;
+  const days = Number.parseInt(stamp, 10);
+  return Number.isFinite(days) ? days : 0;
+}
+
+export function knMarketLabel(days: number) {
+  if (days <= 0) return "Just listed · 0 days on market";
+  if (days === 1) return "1 day on market";
+  return `${days} days on market`;
+}
+
+export function knMarketTitle(post: KnPost) {
+  return knMarketLabel(knDaysOnMarket(post));
+}
+
+export function knDaysFromListedAt(listedAt?: string | null) {
+  if (!listedAt) return null;
+  const ms = Date.now() - Date.parse(listedAt);
+  if (!Number.isFinite(ms)) return 0;
+  return Math.max(0, Math.floor(ms / 86_400_000));
+}
 
 export type KnMessage = {
   id: string;
@@ -235,6 +277,7 @@ export const knViewer: KnAgent = {
   handle: "alexrivera",
   bio: "Hunting a waterfront place. Saving homes and following agents on KeyNest.",
   city: "Jersey City, NJ",
+  role: "Spectator",
   followers: "128",
   following: "64",
   postCount: 0,
@@ -243,7 +286,7 @@ export const knViewer: KnAgent = {
 };
 
 export const knAgents: KnAgent[] = [
-  { id: "a-jessica", name: "Jessica Moore", handle: "jessicamoore", bio: "Jersey City luxury. Private showings and skyline homes.", city: "Jersey City, NJ", followers: "24.1K", following: "412", postCount: 2, image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80", verified: true },
+  { id: "a-jessica", name: "Jessica Moore", handle: "jessicamoore", bio: "Jersey City luxury. Private showings and skyline homes.", city: "Jersey City, NJ", website: "jessicamoorehomes.com", followers: "24.1K", following: "412", postCount: 2, image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80", verified: true },
   { id: "a-michael", name: "Michael Torres", handle: "michaelhomes", bio: "Hoboken townhomes and open houses every weekend.", city: "Hoboken, NJ", followers: "18.6K", following: "380", postCount: 2, image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80", verified: true },
   { id: "a-samantha", name: "Samantha Lee", handle: "samanthalee", bio: "Waterfront estates. If it has a pool and a view, I listed it.", city: "Jersey City, NJ", followers: "21.4K", following: "290", postCount: 2, image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=200&q=80", verified: true },
   { id: "a-daniel", name: "Daniel Russo", handle: "danielrusso", bio: "NYC / JC condos. Price drops and first looks.", city: "New York, NY", followers: "15.2K", following: "501", postCount: 1, image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=200&q=80", verified: true },
@@ -263,6 +306,7 @@ export const knPosts: KnPost[] = [
     agentId: "a-samantha",
     listingId: "jc-skyline-estate",
     image: "/images/yardpool.webp",
+    images: ["/images/yardpool.webp", "/images/poolset.webp", "/images/mountainset.webp", "/images/townliv1.webp"],
     price: "$4,250,000",
     address: "12 Grove Street",
     city: "Jersey City, NJ",
@@ -280,6 +324,7 @@ export const knPosts: KnPost[] = [
     agentId: "a-michael",
     listingId: "hoboken-townhome",
     image: "/images/townliv1.webp",
+    images: ["/images/townliv1.webp", "/images/townliv2.webp", "/images/townliv3.webp"],
     price: "$1,795,000",
     address: "214 Washington St",
     city: "Hoboken, NJ",
@@ -296,6 +341,7 @@ export const knPosts: KnPost[] = [
     agentId: "a-jessica",
     listingId: "nyc-penthouse",
     image: "/images/townliv2.webp",
+    images: ["/images/townliv2.webp", "/images/townliv1.webp", "/images/townliv3.webp", "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=85"],
     price: "$2,850,000",
     address: "88 Riverfront Ave",
     city: "Jersey City, NJ",
@@ -312,6 +358,7 @@ export const knPosts: KnPost[] = [
     agentId: "a-daniel",
     listingId: "jersey-condo",
     image: "/images/townliv3.webp",
+    images: ["/images/townliv3.webp", "/images/townliv1.webp", "/images/townliv2.webp"],
     price: "$879,000",
     address: "401 Marin Blvd",
     city: "Jersey City, NJ",
@@ -328,6 +375,11 @@ export const knPosts: KnPost[] = [
     agentId: "a-sofia",
     listingId: "brooklyn-modern",
     image: "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1200&q=85",
+    images: [
+      "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1600607687644-c7171b42498f?auto=format&fit=crop&w=1200&q=85",
+      "https://images.unsplash.com/photo-1600210492493-0946911123ea?auto=format&fit=crop&w=1200&q=85"
+    ],
     price: "$1,795,000",
     address: "214 Kent Avenue",
     city: "Brooklyn, NY",
@@ -342,6 +394,11 @@ export const knPosts: KnPost[] = [
     agentId: "a-maya",
     listingId: "hudson-penthouse",
     image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=85",
+    images: [
+      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=85",
+      "/images/townliv2.webp",
+      "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&q=85"
+    ],
     price: "$2,850,000",
     address: "88 Riverfront Ave",
     city: "Jersey City, NJ",
@@ -358,6 +415,11 @@ export const knPosts: KnPost[] = [
     agentId: "a-michael",
     listingId: "hoboken-loft",
     image: "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=1200&q=85",
+    images: [
+      "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=1200&q=85",
+      "/images/townliv1.webp",
+      "/images/townliv3.webp"
+    ],
     price: "$1,225,000",
     address: "57 Hudson Street",
     city: "Hoboken, NJ",
@@ -372,6 +434,7 @@ export const knPosts: KnPost[] = [
     agentId: "a-ava",
     listingId: "miami-waterfront",
     image: "/images/poolset.webp",
+    images: ["/images/poolset.webp", "/images/yardpool.webp", "/images/mountainset.webp"],
     price: "$4,950,000",
     address: "102 Bay Drive",
     city: "Miami Beach, FL",
@@ -388,6 +451,7 @@ export const knPosts: KnPost[] = [
     agentId: "a-noah",
     listingId: "brooklyn-modern",
     image: "/images/mountainset.webp",
+    images: ["/images/mountainset.webp", "/images/poolset.webp", "/images/yardpool.webp"],
     price: "$3,150,000",
     address: "41 Walker Street",
     city: "New York, NY",
@@ -402,6 +466,7 @@ export const knPosts: KnPost[] = [
     agentId: "a-samantha",
     listingId: "jc-skyline-estate",
     image: "/images/yardpool.webp",
+    images: ["/images/yardpool.webp", "/images/poolset.webp", "/images/mountainset.webp", "/images/townliv1.webp"],
     price: "$4,250,000",
     address: "12 Grove Street",
     city: "Jersey City, NJ",
@@ -416,6 +481,7 @@ export const knPosts: KnPost[] = [
     agentId: "a-jessica",
     listingId: "nyc-penthouse",
     image: "/images/townliv2.webp",
+    images: ["/images/townliv2.webp", "/images/townliv1.webp", "/images/townliv3.webp", "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=85"],
     price: "$2,850,000",
     address: "88 Riverfront Ave",
     city: "Jersey City, NJ",
@@ -493,8 +559,55 @@ export function knPostById(id: string) {
   return knPosts.find(p => p.id === id);
 }
 
+const CITY_COORDS: Record<string, { lat: number; lng: number }> = {
+  "jersey city": { lat: 40.7282, lng: -74.0776 },
+  hoboken: { lat: 40.744, lng: -74.0324 },
+  brooklyn: { lat: 40.718, lng: -73.958 },
+  "new york": { lat: 40.7163, lng: -74.0086 },
+  "miami beach": { lat: 25.7907, lng: -80.13 },
+  miami: { lat: 25.7617, lng: -80.1918 }
+};
+
+const LISTING_COORDS: Record<string, { lat: number; lng: number }> = {
+  "hudson-penthouse": { lat: 40.72755, lng: -74.03205 },
+  "brooklyn-modern": { lat: 40.7184, lng: -73.9619 },
+  "hoboken-loft": { lat: 40.7372, lng: -74.0291 },
+  "miami-waterfront": { lat: 25.7907, lng: -80.13 }
+};
+
+export function listingCoords(id: string, city: string, lat?: number | null, lng?: number | null) {
+  if (Number.isFinite(lat) && Number.isFinite(lng)) return { lat: lat as number, lng: lng as number };
+  const featured = featuredListings.find(item => item.id === id);
+  if (featured) return { lat: featured.lat, lng: featured.lng };
+  const extra = LISTING_COORDS[id];
+  if (extra) return extra;
+  const match = Object.keys(CITY_COORDS).find(key => city.toLowerCase().includes(key));
+  return match ? CITY_COORDS[match] : CITY_COORDS["jersey city"];
+}
+
+export function knMapPoint(post: KnPost) {
+  const featured = featuredListings.find(item => item.id === post.listingId);
+  if (featured) {
+    return { lat: featured.lat, lng: featured.lng, propertyId: featured.id };
+  }
+  const listed = properties.find(item => item.id === post.listingId);
+  const extra = LISTING_COORDS[post.listingId];
+  if (extra) {
+    return { ...extra, propertyId: listed?.id ?? post.listingId };
+  }
+  const city = post.city.toLowerCase();
+  const match = Object.keys(CITY_COORDS).find(key => city.includes(key));
+  const coords = match ? CITY_COORDS[match] : CITY_COORDS["jersey city"];
+  const byAddress = [...featuredListings, ...properties].find(item => item.address === post.address);
+  return { ...coords, propertyId: byAddress?.id ?? post.listingId };
+}
+
 export function knThreadById(id: string) {
   return knThreads.find(t => t.id === id);
+}
+
+export function knThreadByAgentId(agentId: string) {
+  return knThreads.find(t => t.agentId === agentId);
 }
 
 export type KnActivityKind = "like" | "comment" | "follow" | "showing";

@@ -2,15 +2,14 @@
 
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { X } from "lucide-react";
-import { knAgentById, knAgents, knPostsByAgent } from "@/lib/mock-data";
+import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import { useSocial } from "./social-context";
 
 const DURATION = 5000;
 
 export default function StoryViewer() {
   const social = useSocial();
-  const queue = knAgents.filter(agent => knPostsByAgent(agent.id).length > 0);
+  const queue = social.storyQueue;
   const agentIdx = queue.findIndex(agent => agent.id === social.storyAgentId);
   const [slide, setSlide] = useState(0);
   const [paused, setPaused] = useState(false);
@@ -30,7 +29,7 @@ export default function StoryViewer() {
   const goNext = useCallback(() => {
     if (agentIdx < 0) return;
     const agent = queue[agentIdx];
-    const slides = knPostsByAgent(agent.id);
+    const slides = social.slidesFor(agent.id);
     if (slide + 1 < slides.length) {
       setSlide(slide + 1);
       setProgress(0);
@@ -62,7 +61,7 @@ export default function StoryViewer() {
       close();
       return;
     }
-    const prevSlides = knPostsByAgent(prevAgent.id);
+    const prevSlides = social.slidesFor(prevAgent.id);
     setSlide(Math.max(0, prevSlides.length - 1));
     setProgress(0);
     progressRef.current = 0;
@@ -89,10 +88,10 @@ export default function StoryViewer() {
 
   if (agentIdx < 0) return null;
   const agent = queue[agentIdx];
-  const slides = knPostsByAgent(agent.id);
+  const slides = social.slidesFor(agent.id);
   const post = slides[slide];
   if (!post) return null;
-  const owner = knAgentById(agent.id);
+  const owner = social.agentById(agent.id);
 
   function onDown() {
     downAt.current = Date.now();
@@ -108,7 +107,7 @@ export default function StoryViewer() {
 
   return (
     <div className="knStoryShow" role="dialog" aria-label={`${owner.name} story`}>
-      <img className="knStoryPhoto" src={post.image} alt={post.address} />
+      <img className="knStoryPhoto" src={post.image} alt={post.address || "Story"} />
       <div className="knStoryTicks" aria-hidden>
         {slides.map((item, i) => (
           <span key={item.id} className="knStoryTick">
@@ -136,10 +135,34 @@ export default function StoryViewer() {
         <button type="button" aria-label="Previous story" onPointerDown={onDown} onPointerUp={() => onUp("prev")} onPointerCancel={() => setPaused(false)} />
         <button type="button" aria-label="Next story" onPointerDown={onDown} onPointerUp={() => onUp("next")} onPointerCancel={() => setPaused(false)} />
       </div>
-      <div className="knStoryShowCopy">
-        <strong>{post.price}</strong>
-        <span>{post.address}, {post.city}</span>
-      </div>
+      <button
+        type="button"
+        className="knStoryNav is-left"
+        aria-label="Previous story"
+        onClick={e => {
+          e.stopPropagation();
+          goPrev();
+        }}
+      >
+        <ChevronLeft size={18} strokeWidth={1.75} />
+      </button>
+      <button
+        type="button"
+        className="knStoryNav is-right"
+        aria-label="Next story"
+        onClick={e => {
+          e.stopPropagation();
+          goNext();
+        }}
+      >
+        <ChevronRight size={18} strokeWidth={1.75} />
+      </button>
+      {post.price || post.address ? (
+        <div className="knStoryShowCopy">
+          {post.price ? <strong>{post.price}</strong> : null}
+          {post.address ? <span>{post.address}{post.city ? `, ${post.city}` : ""}</span> : null}
+        </div>
+      ) : null}
     </div>
   );
 }

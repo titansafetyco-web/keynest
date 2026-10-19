@@ -1,42 +1,78 @@
-import { featuredListings, properties } from "@/lib/mock-data";
+import { loadListingById } from "@/lib/keynest";
+import { knMarketLabel, listingCoords } from "@/lib/mock-data";
 import { notFound } from "next/navigation";
-import { BedDouble, Bath, Maximize2, MapPin, Heart, Share2 } from "lucide-react";
+import { BedDouble, Bath, Maximize2, Heart, Share2 } from "lucide-react";
+import PropertyGallery from "@/components/property-gallery";
+import LoanEstimator from "@/components/loan-estimator";
+import PropertyBack from "@/components/property-back";
+import PropertyCityMap from "@/components/property-city-map";
 
 export default async function PropertyPage({ params }: { params: Promise<{id:string}> }) {
   const { id } = await params;
-  const featured = featuredListings.find(x => x.id === id);
-  const listed = properties.find(x => x.id === id);
-  const p = listed ?? (featured ? {
-    ...featured,
-    handle: `@${featured.agent.toLowerCase().replace(/\s+/g, "")}`
-  } : undefined);
+  const p = await loadListingById(id);
   if(!p) return notFound();
+  const coords = listingCoords(p.id, p.city, "lat" in p ? Number(p.lat) : undefined, "lng" in p ? Number(p.lng) : undefined);
   return (
-    <>
-      <img src={p.image} alt={p.address} style={{width:"100%",maxHeight:560,objectFit:"cover",borderRadius:24,display:"block"}}/>
-      <div className="grid2" style={{marginTop:18}}>
-        <div className="card cardPad">
-          <div className="row between">
-            <div><div className="price">{p.price}</div><h2 style={{marginBottom:4}}>{p.address}</h2><div className="row muted"><MapPin size={15}/>{p.city}</div></div>
-            <div className="row"><button className="btn"><Heart size={16}/></button><button className="btn"><Share2 size={16}/></button></div>
+    <article className="propPage">
+      <PropertyBack />
+      <PropertyGallery images={p.images?.length ? p.images : [p.image]} alt={p.address} />
+      <div className="propLayout">
+        <section className="card propMain">
+          <div className="propMainScroll">
+            <div className="propTop">
+              <div className="propCopy">
+                <div className="price">{p.price}</div>
+                <h1 className="propAddress">{p.address}</h1>
+                <PropertyCityMap
+                  listing={{
+                    id: p.id,
+                    price: p.price,
+                    lat: coords.lat,
+                    lng: coords.lng,
+                    address: p.address,
+                    city: p.city,
+                    beds: p.beds,
+                    baths: p.baths,
+                    sqft: p.sqft,
+                    image: p.image
+                  }}
+                />
+                <span className="propMarketTab">{knMarketLabel(p.daysOnMarket ?? 0)}</span>
+              </div>
+              <div className="propTools">
+                <button className="btn propIconBtn" type="button" aria-label="Save"><Heart size={16}/></button>
+                <button className="btn propIconBtn" type="button" aria-label="Share"><Share2 size={16}/></button>
+              </div>
+            </div>
+            <div className="propFacts">
+              <span><BedDouble size={16}/>{p.beds} beds</span>
+              <span><Bath size={16}/>{p.baths} baths</span>
+              <span><Maximize2 size={16}/>{p.sqft} sqft</span>
+            </div>
+            <h2 className="propAboutTitle">About this property</h2>
+            <p className="muted propAbout">A curated KeyNest listing with social discovery, a verified agent, and a structured property record you can save, share, and tour.</p>
+            <LoanEstimator priceLabel={p.price} />
           </div>
-          <div className="row muted" style={{gap:22,marginTop:18}}>
-            <span className="row"><BedDouble size={17}/>{p.beds} beds</span>
-            <span className="row"><Bath size={17}/>{p.baths} baths</span>
-            <span className="row"><Maximize2 size={17}/>{p.sqft} sqft</span>
+        </section>
+        <aside className="card cardPad propAgent">
+          <div className="propAgentHead">
+            {p.agentImage ? (
+              <img className="avatar" src={p.agentImage} alt="" />
+            ) : (
+              <div className="avatar" />
+            )}
+            <div>
+              <strong>{p.agent}</strong>
+              <div className="muted small">{p.handle} · Verified Agent</div>
+            </div>
           </div>
-          <h3>About this property</h3>
-          <p className="muted" style={{lineHeight:1.7}}>A curated KeyNest listing experience with social discovery, creator attribution, agent messaging and campaign analytics built around a structured property object.</p>
-        </div>
-        <div className="card cardPad">
-          <div className="row"><div className="avatar" style={{width:50,height:50}}/><div><strong>{p.agent}</strong><div className="muted small">{p.handle} · Verified Agent</div></div></div>
-          <div style={{display:"grid",gap:10,marginTop:18}}>
-            <button className="btn primary">Request a showing</button>
-            <button className="btn">Message agent</button>
-            <button className="btn">Follow agent</button>
+          <div className="propAgentActions">
+            <button className="btn primary" type="button">Request a showing</button>
+            <button className="btn" type="button">Message agent</button>
+            <button className="btn" type="button">Follow agent</button>
           </div>
-        </div>
+        </aside>
       </div>
-    </>
+    </article>
   )
 }

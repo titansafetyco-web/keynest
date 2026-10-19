@@ -4,7 +4,8 @@ import { MouseEvent, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Heart } from "lucide-react";
-import { featuredListings } from "@/lib/mock-data";
+import { type FeaturedListing } from "@/lib/mock-data";
+import { markPropSurface } from "@/lib/prop-nav";
 
 const tabs = [
   { id: "for-you", label: "For You" },
@@ -13,12 +14,12 @@ const tabs = [
   { id: "price-drop", label: "Price Drop" }
 ] as const;
 
-export default function FeaturedProperties() {
+export default function FeaturedProperties({ listings }: { listings: FeaturedListing[] }) {
   const router = useRouter();
   const [tab, setTab] = useState<(typeof tabs)[number]["id"]>("for-you");
   const list = tab === "for-you"
-    ? featuredListings
-    : featuredListings.filter(p => p.category === tab);
+    ? listings
+    : listings.filter(p => p.category === tab);
 
   function onSave(e: MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
@@ -45,7 +46,7 @@ export default function FeaturedProperties() {
         </div>
         <div className="mktFeaturedGrid">
           {list.map(p => (
-            <Link href={`/property/${p.id}`} className="mktListing" key={p.id}>
+            <Link href={`/property/${p.id}`} className="mktListing" key={p.id} onClick={() => markPropSurface("web")}>
               <div className="mktListingMedia">
                 <img src={p.image} alt={p.address} />
                 {p.badge && <span className={`mktBadge ${p.badge === "Price Drop" ? "drop" : ""}`}>{p.badge}</span>}

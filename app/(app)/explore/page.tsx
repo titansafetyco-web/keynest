@@ -1,18 +1,19 @@
 import PropertyCard from "@/components/property-card";
-import { properties } from "@/lib/mock-data";
+import { loadMarketingProperties } from "@/lib/keynest";
 
-export default function ExplorePage() {
+export default async function ExplorePage() {
+  const list = await loadMarketingProperties();
   return (
     <>
       <div className="sectionHead">
         <div><h2>Explore</h2><p>Discover properties, neighborhoods and collections.</p></div>
       </div>
-      <div className="chips" style={{marginBottom:18}}>
+      <div className="chips exploreChips">
         {["For You","Nearby","New","Luxury","Condos","Investment","Open Houses"].map((x,i)=>
           <span key={x} className={`chip ${i===0?"active":""}`}>{x}</span>
         )}
       </div>
-      <div className="grid3">{properties.map(p => <PropertyCard key={p.id} p={p}/>)}</div>
+      <div className="grid3">{list.map(p => <PropertyCard key={p.id} p={p}/>)}</div>
     </>
   )
 }

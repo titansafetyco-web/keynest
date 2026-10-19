@@ -2,11 +2,10 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { creators } from "@/lib/mock-data";
+import { type CreatorCard } from "@/lib/mock-data";
 
-const featured = creators.slice(0, 6);
-
-export default function TopAgents() {
+export default function TopAgents({ people }: { people: CreatorCard[] }) {
+  const featured = people.slice(0, 6);
   const [following, setFollowing] = useState<Record<string, boolean>>({});
 
   return (

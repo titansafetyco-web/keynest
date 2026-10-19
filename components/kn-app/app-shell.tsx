@@ -1,30 +1,24 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect } from "react";
 import { usePathname } from "next/navigation";
-import { FormEvent, useState } from "react";
 import { Heart, Home, PlusSquare, Search, Send } from "lucide-react";
 import Logo from "@/components/marketing/logo";
-import { knViewer } from "@/lib/mock-data";
 import { useSocial } from "./social-context";
 import CommentsSheet from "./comments-sheet";
+import ComposeSheet from "./compose-sheet";
+import ListingMapSheet from "./listing-map-sheet";
+import { markPropSurface } from "@/lib/prop-nav";
 import StoryViewer from "./story-viewer";
 
 export default function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const social = useSocial();
-  const [draft, setDraft] = useState("");
-  const [posted, setPosted] = useState(false);
 
-  function onCompose(e: FormEvent) {
-    e.preventDefault();
-    setPosted(true);
-    window.setTimeout(() => {
-      setPosted(false);
-      setDraft("");
-      social.setComposeOpen(false);
-    }, 900);
-  }
+  useEffect(() => {
+    markPropSurface("app", `${pathname}${window.location.search}`);
+  }, [pathname]);
 
   return (
     <div className="knAppRoot">
@@ -68,31 +62,13 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
               <Send size={22} strokeWidth={pathname.startsWith("/app/messages") ? 2.4 : 1.8} />
             </Link>
             <Link href="/app/me" className={`knAppTab${pathname === "/app/me" ? " is-on" : ""}`} aria-label="Profile">
-              <img className="knAppTabAvatar" src={knViewer.image} alt="" />
+              <img className="knAppTabAvatar" src={social.viewer.image} alt="" />
             </Link>
           </nav>
           <CommentsSheet />
+          <ListingMapSheet />
           <StoryViewer />
-          {social.composeOpen ? (
-            <>
-              <button type="button" className="knSheetScrim" aria-label="Close compose" onClick={() => social.setComposeOpen(false)} />
-              <div className="knSheet" role="dialog" aria-label="New post">
-                <div className="knSheetHead">
-                  New post
-                  <button type="button" className="knAppIconBtn" onClick={() => social.setComposeOpen(false)}>Close</button>
-                </div>
-                <form className="knCompose" onSubmit={onCompose}>
-                  <textarea
-                    value={draft}
-                    onChange={e => setDraft(e.target.value)}
-                    placeholder="Write a caption for a listing…"
-                    aria-label="Caption"
-                  />
-                  <button type="submit">{posted ? "Shared" : "Share"}</button>
-                </form>
-              </div>
-            </>
-          ) : null}
+          <ComposeSheet />
         </div>
       </div>
     </div>

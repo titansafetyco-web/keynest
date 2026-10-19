@@ -54,7 +54,7 @@ function pinCardHtml(listing: MapListing) {
 
 function keepCardInMap(pin: HTMLButtonElement) {
   const card = pin.querySelector<HTMLElement>(".mktMapPinCard");
-  const map = pin.closest(".mktHeroMap");
+  const map = pin.closest(".mktHeroMap, .knMapStage");
   if (!card || !map) return;
   card.style.transform = "translateX(-50%)";
   const mapBox = map.getBoundingClientRect();
@@ -189,17 +189,21 @@ function paintAppleLook(map: MapLibreMap) {
 export default function HeroStreetMap({
   open,
   listings,
+  activeId,
   onSelect
 }: {
   open: boolean;
   listings: MapListing[];
+  activeId?: string;
   onSelect: (id: string) => void;
 }) {
   const elRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<MapLibreMap | null>(null);
   const markersRef = useRef<Marker[]>([]);
   const onSelectRef = useRef(onSelect);
+  const activeIdRef = useRef(activeId);
   onSelectRef.current = onSelect;
+  activeIdRef.current = activeId;
 
   useEffect(() => {
     if (!open) {
@@ -253,7 +257,8 @@ export default function HeroStreetMap({
             bounds.extend([listing.lng, listing.lat]);
             const pin = document.createElement("button");
             pin.type = "button";
-            pin.className = "mktMapPin";
+            pin.className = listing.id === activeIdRef.current ? "mktMapPin is-on" : "mktMapPin";
+            pin.dataset.listingId = listing.id;
             pin.setAttribute("aria-label", `${listing.price} ${listing.address ?? ""}`.trim());
             pin.innerHTML = pinCardHtml(listing);
             pin.addEventListener("pointerenter", () => {
@@ -308,6 +313,13 @@ export default function HeroStreetMap({
       mapRef.current = null;
     };
   }, [open, listings]);
+
+  useEffect(() => {
+    for (const marker of markersRef.current) {
+      const pin = marker.getElement();
+      pin.classList.toggle("is-on", pin.dataset.listingId === activeId);
+    }
+  }, [activeId]);
 
   return <div className="mktHeroMapSurface" ref={elRef} />;
 }

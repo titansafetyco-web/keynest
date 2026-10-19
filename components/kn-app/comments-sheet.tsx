@@ -2,13 +2,12 @@
 
 import { FormEvent, useState } from "react";
 import { X } from "lucide-react";
-import { knPostById } from "@/lib/mock-data";
 import { useSocial } from "./social-context";
 
 export default function CommentsSheet() {
   const social = useSocial();
   const [draft, setDraft] = useState("");
-  const post = social.commentPostId ? knPostById(social.commentPostId) : undefined;
+  const post = social.commentPostId ? social.allPosts.find(item => item.id === social.commentPostId) : undefined;
   if (!social.commentPostId || !post) return null;
   const postId = post.id;
   const comments = social.commentsFor(postId);

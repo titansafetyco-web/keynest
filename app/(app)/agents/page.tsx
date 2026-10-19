@@ -1,12 +1,13 @@
-import { creators } from "@/lib/mock-data";
 import { BadgeCheck, MapPin } from "lucide-react";
+import { loadCreators } from "@/lib/keynest";
 
-export default function AgentsPage() {
+export default async function AgentsPage() {
+  const people = await loadCreators();
   return (
     <>
       <div className="sectionHead"><div><h2>People</h2><p>Agents and creators shaping real estate discovery.</p></div></div>
       <div className="grid3">
-        {creators.map(c => (
+        {people.map(c => (
           <div className="card cardPad" key={c.handle}>
             <div className="row">
               <div className="avatar" style={{width:54,height:54}}/>

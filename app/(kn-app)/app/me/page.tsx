@@ -1,6 +1,9 @@
+"use client";
+
 import AgentProfile from "@/components/kn-app/agent-profile";
-import { knViewer } from "@/lib/mock-data";
+import { useSocial } from "@/components/kn-app/social-context";
 
 export default function MePage() {
-  return <AgentProfile agent={knViewer} isYou />;
+  const { viewer } = useSocial();
+  return <AgentProfile agent={viewer} isYou />;
 }

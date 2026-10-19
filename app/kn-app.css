@@ -110,54 +110,80 @@
 }
 .knAppTab.is-on .knAppTabAvatar { border-color: #111; }
 
-.knStoriesWrap {
-  position: relative;
-}
 .knStories {
   display: flex;
   gap: 14px;
-  padding: 12px 36px 10px;
+  padding: 12px 14px 20px;
   overflow-x: auto;
   border-bottom: 1px solid #efefef;
   scrollbar-width: none;
 }
-.knStoriesArrow {
-  position: absolute;
-  top: 50%;
-  z-index: 2;
-  width: 28px;
-  height: 28px;
-  margin-top: -14px;
-  display: grid;
-  place-items: center;
-  border: 0;
-  border-radius: 50%;
-  background: #fff;
-  color: #111;
-  box-shadow: 0 1px 6px rgba(0, 0, 0, .18);
-}
-.knStoriesArrow.is-left { left: 6px; }
-.knStoriesArrow.is-right { right: 6px; }
 .knStories::-webkit-scrollbar { display: none; }
 .knStory {
   flex: 0 0 auto;
-  width: 68px;
+  width: 72px;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 6px;
   border: 0;
   background: none;
-  padding: 0;
+  padding: 0 2px 4px;
+  overflow: visible;
   color: #111;
   text-decoration: none;
 }
+.knStoryAvatar {
+  position: relative;
+  width: 62px;
+  height: 62px;
+  overflow: visible;
+  flex: 0 0 auto;
+}
 .knStoryRing {
+  display: block;
   width: 62px;
   height: 62px;
   padding: 2px;
   border-radius: 50%;
+  overflow: hidden;
   background: conic-gradient(from 200deg, #c4b08a, #8a704e, #e8d7b5, #c4b08a);
+}
+.knStoryAdd {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border-radius: 50%;
+  background: #8a704e;
+  border: 2px solid #fff;
+  box-sizing: border-box;
+}
+.knStoryAdd::before,
+.knStoryAdd::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  background: #fff;
+  border-radius: 1px;
+  transform: translate(-50%, -50%);
+}
+.knStoryAdd::before {
+  width: 9px;
+  height: 2px;
+}
+.knStoryAdd::after {
+  width: 2px;
+  height: 9px;
+}
+button.knStoryRing {
+  border: 0;
+  padding: 2px;
+  cursor: pointer;
 }
 .knStoryRing.is-seen {
   background: #dbdbdb;
@@ -171,7 +197,7 @@
   border: 2px solid #fff;
   display: block;
 }
-.knStory span {
+.knStoryName {
   max-width: 68px;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -194,6 +220,31 @@
   text-decoration: none;
   min-width: 0;
   flex: 1;
+}
+.knPostMore {
+  position: relative;
+}
+.knPostMenu {
+  position: absolute;
+  top: 36px;
+  right: 0;
+  z-index: 6;
+  min-width: 140px;
+  padding: 6px 0;
+  background: #fff;
+  border: 1px solid #efefef;
+  border-radius: 10px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, .08);
+}
+.knPostMenu button {
+  display: block;
+  width: 100%;
+  padding: 10px 14px;
+  border: 0;
+  background: none;
+  text-align: left;
+  font-size: 14px;
+  color: #ed4956;
 }
 .knPostHead img {
   width: 32px;
@@ -220,22 +271,79 @@
   color: #8a704e;
   vertical-align: -1px;
 }
+.knPostMedia {
+  position: relative;
+}
+.knPostTrack {
+  display: flex;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.knPostTrack::-webkit-scrollbar { display: none; }
 .knPostPhoto {
   display: block;
+  flex: 0 0 100%;
   width: 100%;
+  min-width: 100%;
   aspect-ratio: 4 / 5;
   object-fit: cover;
   background: #eee;
+  scroll-snap-align: start;
+  pointer-events: none;
+}
+.knPostCount {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 1;
+  padding: 3px 8px;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, .55);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .02em;
 }
 .knPostActions {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  gap: 4px;
   padding: 6px 6px 0;
 }
-.knPostActions .knAppIconBtn:last-child { margin-left: auto; }
+.knPostActsL {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+.knPostActions > .knAppIconBtn {
+  justify-self: end;
+}
+.knPostDots {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+}
+.knPostDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #dbdbdb;
+}
+.knPostDot.is-on {
+  background: #8a704e;
+}
 .knPostMeta { padding: 4px 14px 14px; }
 .knPostMeta strong { font-size: 14px; }
+.knPostMarket {
+  margin: 6px 0 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: #111;
+}
 .knPostCaption {
   margin: 4px 0 0;
   font-size: 14px;
@@ -243,8 +351,103 @@
 }
 .knPostCaption b { font-weight: 600; }
 .knPostFacts {
+  display: block;
+  width: 100%;
   margin: 4px 0 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  text-align: left;
+  font: inherit;
   font-size: 13px;
+  color: #8a704e;
+}
+.knSheetMap {
+  height: 78%;
+  max-height: 78%;
+}
+.knMapStage {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  background: #e7ece4;
+}
+.knMapStage .mktHeroMapSurface {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: #e7ece4;
+}
+.knMapStage .mktHeroMapSurface.maplibregl-map,
+.knMapStage .mktHeroMapSurface .maplibregl-canvas,
+.knMapStage .mktHeroMapSurface .maplibregl-canvas-container {
+  width: 100% !important;
+  height: 100% !important;
+}
+.knMapPin {
+  padding: 6px 8px;
+  border-radius: 8px;
+  background: #8a704e;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, .2);
+}
+.knMapCard {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 16px;
+  z-index: 50;
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  gap: 10px 12px;
+  padding: 18px 10px 10px;
+  border: 0;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, .18);
+  text-align: left;
+  color: #111;
+  cursor: pointer;
+}
+.knMapCardHandle {
+  position: absolute;
+  top: 7px;
+  left: 50%;
+  width: 36px;
+  height: 4px;
+  border-radius: 999px;
+  background: #d8d8d8;
+  transform: translateX(-50%);
+}
+.knMapCard img {
+  width: 72px;
+  height: 72px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+.knMapCard span {
+  min-width: 0;
+  align-self: center;
+}
+.knMapCard strong {
+  display: block;
+  font-size: 15px;
+}
+.knMapCard em {
+  display: block;
+  margin-top: 2px;
+  font-style: normal;
+  font-size: 13px;
+  color: #262626;
+}
+.knMapCard small {
+  display: block;
+  margin-top: 6px;
+  font-size: 12px;
+  font-weight: 600;
   color: #8a704e;
 }
 .knPostTime {
@@ -422,6 +625,24 @@
   background: rgba(0,0,0,.35);
   color: #fff;
 }
+.knStoryNav {
+  position: absolute;
+  top: 50%;
+  z-index: 5;
+  width: 28px;
+  height: 28px;
+  margin-top: -14px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  padding: 0;
+  border-radius: 50%;
+  background: rgba(0,0,0,.28);
+  color: #fff;
+  backdrop-filter: blur(8px);
+}
+.knStoryNav.is-left { left: 10px; }
+.knStoryNav.is-right { right: 10px; }
 
 .knSearchWrap { padding: 10px 12px; }
 .knSearchWrap input {
@@ -462,11 +683,37 @@
   align-items: center;
   gap: 22px;
 }
-.knProfileRow > img {
+.knProfileRow > img,
+.knProfileAvatar {
   width: 86px;
   height: 86px;
   border-radius: 50%;
   object-fit: cover;
+  flex: 0 0 auto;
+  padding: 0;
+  border: 0;
+  background: none;
+  position: relative;
+}
+.knProfileAvatar img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+}
+.knProfileStoryAdd {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 24px;
+  height: 24px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #8a704e;
+  color: #fff;
+  border: 2px solid #fff;
 }
 .knStats {
   display: flex;
@@ -478,6 +725,54 @@
 .knStats span { font-size: 12px; color: #8e8e8e; }
 .knProfileHead h1 { margin: 14px 0 0; font-size: 14px; }
 .knProfileHead p { margin: 4px 0 0; font-size: 13px; color: #262626; }
+.knProfileRole { color: #8e8e8e; }
+.knProfileLink {
+  display: block;
+  margin-top: 4px;
+  color: #8a704e;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+}
+.knCompose textarea + input {
+  margin-top: 8px;
+}
+.knEditAvatar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  margin-bottom: 14px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #8a704e;
+  font-size: 13px;
+  font-weight: 600;
+}
+.knEditAvatar img {
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+}
+.knProfileBtns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 14px;
+}
+.knProfileBtn {
+  height: 32px;
+  border: 0;
+  border-radius: 8px;
+  background: #efefef;
+  color: #111;
+  font-weight: 600;
+  font-size: 13px;
+}
 .knFollow {
   width: 100%;
   margin-top: 14px;
@@ -635,20 +930,283 @@
 }
 .knChip small { display: block; font-size: 11px; opacity: .8; }
 
-.knCompose {
-  padding: 18px 16px;
+.knSheetShare {
+  max-height: 78%;
 }
-.knCompose textarea {
+.knSharePeople {
+  flex: 1;
+  overflow: auto;
+  padding: 0 8px 8px;
+}
+.knSharePerson {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   width: 100%;
-  min-height: 120px;
-  border: 1px solid #efefef;
+  padding: 8px 8px;
+  border: 0;
+  background: none;
+  text-align: left;
+  color: #111;
+}
+.knSharePerson img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.knSharePerson strong {
+  display: block;
+  font-size: 14px;
+}
+.knSharePerson em {
+  display: block;
+  font-style: normal;
+  font-size: 12px;
+  color: #8e8e8e;
+}
+.knShareApps {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding: 12px 16px 18px;
+  border-top: 1px solid #efefef;
+  scrollbar-width: none;
+}
+.knShareApp {
+  flex: 0 0 auto;
+  width: 64px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  border: 0;
+  background: none;
+  color: #111;
+  text-decoration: none;
+  font-size: 11px;
+}
+.knShareApp i {
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #efefef;
+  color: #5c4a34;
+  font-style: normal;
+  font-size: 13px;
+  font-weight: 700;
+}
+.knSheetCompose {
+  max-height: 88%;
+}
+.knCompose {
+  flex: 1;
+  padding: 12px 16px 18px;
+  overflow: auto;
+}
+.knComposeFile {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+.knComposePhoto {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 140px;
+  margin-bottom: 10px;
+  border: 1px dashed #d9d9d9;
+  border-radius: 12px;
+  background: #fafafa;
+  color: #8e8e8e;
+  font-size: 13px;
+  overflow: hidden;
+}
+.knComposePhoto.has-img {
+  min-height: 0;
+  padding: 0;
+  border-style: solid;
+  border-color: #efefef;
+}
+.knComposePhoto img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  display: block;
+}
+.knComposeThumbs {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  margin-bottom: 10px;
+  padding-bottom: 2px;
+  scrollbar-width: none;
+}
+.knComposeThumb {
+  position: relative;
+  flex: 0 0 88px;
+  width: 88px;
+  height: 88px;
+  touch-action: none;
+  cursor: grab;
+}
+.knComposeThumb.is-drag {
+  opacity: .65;
+  cursor: grabbing;
+}
+.knComposeThumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+  display: block;
+}
+.knComposeThumb button {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 22px;
+  height: 22px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, .65);
+  color: #fff;
+}
+.knComposeAddMore {
+  flex: 0 0 88px;
+  width: 88px;
+  height: 88px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  border: 1px dashed #d9d9d9;
+  border-radius: 10px;
+  background: #f0f0f0;
+  color: #8e8e8e;
+  font-size: 12px;
+}
+.knCompose input:not([type="file"]),
+.knCompose select,
+.knCompose textarea,
+.knComposeState {
+  width: 100%;
+  border: 1px solid #d8d8d8;
   border-radius: 12px;
   padding: 12px;
-  font: inherit;
+  font-family: inherit;
   font-size: 15px;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1.2;
+  color: #111;
+  appearance: none;
+  -webkit-appearance: none;
+  background-color: #e6e6e6;
+  background-image: none;
+}
+.knCompose input::placeholder,
+.knCompose textarea::placeholder {
+  color: #8e8e8e;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+.knComposePlace {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 78px 80px;
+  gap: 8px;
+  margin-top: 8px;
+  align-items: start;
+}
+.knComposeStateWrap {
+  position: relative;
+  z-index: 3;
+}
+.knComposeState {
+  padding: 12px 8px;
+  text-align: left;
+}
+.knComposeState.is-placeholder {
+  color: #8e8e8e;
+}
+.knComposeStateMenu {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  z-index: 4;
+  max-height: 168px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  background: #f0f0f0;
+  border: 1px solid #efefef;
+  border-radius: 10px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, .1);
+}
+.knComposeStateMenu button {
+  display: block;
+  width: 100%;
+  height: 38px;
+  padding: 0 8px;
+  border: 0;
+  border-bottom: 1px solid #e6e6e6;
+  background: #f0f0f0;
+  color: #111;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-align: left;
+}
+.knComposeStateMenu button:last-child { border-bottom: 0; }
+.knComposeStateMenu button.is-on {
+  background: #f6f1ea;
+  color: #8a704e;
+}
+.knCompose textarea {
+  min-height: 72px;
+  margin-top: 8px;
   resize: none;
 }
-.knCompose button {
+.knComposeGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 8px;
+}
+.knCompose > input {
+  margin-top: 0;
+}
+.knCompose > input + input,
+.knCompose > input + select,
+.knCompose > select + input,
+.knCompose > input + .knComposeRole,
+.knComposeRole + input {
+  margin-top: 8px;
+}
+.knComposeRole {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+}
+.knComposeRole.has-lic {
+  grid-template-columns: 1fr 1fr;
+}
+.knCompose button[type="submit"] {
   width: 100%;
   margin-top: 12px;
   height: 40px;
@@ -657,6 +1215,9 @@
   background: #8a704e;
   color: #fff;
   font-weight: 600;
+}
+.knCompose button[type="submit"]:disabled {
+  opacity: .45;
 }
 
 .knEmpty {

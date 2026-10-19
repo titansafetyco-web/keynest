@@ -15,8 +15,9 @@ import {
   Building,
   Trees
 } from "lucide-react";
-import { featuredListings } from "@/lib/mock-data";
+import { type FeaturedListing } from "@/lib/mock-data";
 import HeroStreetMap from "@/components/marketing/hero-street-map";
+import { markPropSurface } from "@/lib/prop-nav";
 
 const types = [
   { id: "House", icon: Home },
@@ -90,7 +91,7 @@ function FieldPick({
   );
 }
 
-export default function HeroDiscover() {
+export default function HeroDiscover({ listings }: { listings: FeaturedListing[] }) {
   const router = useRouter();
   const formRef = useRef<HTMLFormElement>(null);
   const typeTrackRef = useRef<HTMLDivElement>(null);
@@ -262,8 +263,11 @@ export default function HeroDiscover() {
           {mapOpen ? (
             <HeroStreetMap
               open={mapOpen}
-              listings={featuredListings}
-              onSelect={id => router.push(`/property/${id}`)}
+              listings={listings}
+              onSelect={id => {
+                markPropSurface("web");
+                router.push(`/property/${id}`);
+              }}
             />
           ) : (
             <div className="mktHeroMapSurface" />
